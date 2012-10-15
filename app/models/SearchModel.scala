@@ -23,7 +23,9 @@ import org.elasticsearch.common.settings.ImmutableSettings._
 import org.elasticsearch.node._, NodeBuilder._
 
 import royal.ends._
+import royal.ends.Search._
 import scala.collection.JavaConversions._
+import sultan.JsonFormats._
 
 object SearchModel {
 
@@ -46,7 +48,7 @@ object SearchModel {
   val changeFilterMap = Map(
     "type"        -> "type_name"
   )
-  val ticketSortMap = Map(
+  val changeSortMap = Map(
     "date_created"-> "date_created",
     "id"          -> "id"
   )
@@ -161,11 +163,11 @@ object SearchModel {
   }
 
   /**
-   * Index a ticket.
+   * Index a change.
    */
-  def indexTicket(ticket: FullTicket) {
+  def indexChange(change: Change) {
 
-    indexer.index(ticketIndex, ticketType, ticket.ticketId, toJson(ticket).toString)
+    indexer.index(changeIndex, changeType, change.id.get.toString, toJson(change).toString)
 
     indexer.refresh()
   }
@@ -202,12 +204,12 @@ object SearchModel {
   }
 
   /**
-   * Search for a ticket.
+   * Search for a change.
    */
-  def searchTicket(query: SearchQuery): SearchResult[FullTicket] = {
+  def searchChange(query: SearchQuery): SearchResult[Change] = {
 
-    val res = runQuery(indexer, ticketIndex, query, ticketFilterMap, ticketSortMap, ticketFacets)
-    val hits = res.hits.map { hit => Json.fromJson[FullTicket](Json.parse(hit.sourceAsString())) }
+    val res = sultan.Search.runQuery(indexer, changeIndex, query, changeFilterMap, changeSortMap, changeFacets)
+    val hits = res.hits.map { hit => Json.fromJson[Change](Json.parse(hit.sourceAsString())) }
 
     val pager = Page(hits, query.page, query.count, res.hits.totalHits)
     Search.parseSearchResponse(pager = pager, response = res)

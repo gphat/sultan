@@ -44,7 +44,6 @@ CREATE TABLE changes (
     risk TINYINT NOT NULL,
     success TINYINT(1) NOT NULL,
     PRIMARY KEY(id),
-    FOREIGN KEY (system_id) REFERENCES systems(id),
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (owner_id) REFERENCES users(id),
     FOREIGN KEY (change_type_id) REFERENCES change_types(id)
@@ -53,7 +52,10 @@ CREATE TABLE changes (
 CREATE TABLE change_systems (
     id INT UNSIGNED AUTO_INCREMENT NOT NULL,
     change_id INT UNSIGNED NOT NULL,
-    system_id INT UNSIGNED NOT NULL
+    system_id INT UNSIGNED NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY (change_id) REFERENCES changes(id),
+    FOREIGN KEY (system_id) REFERENCES systems(id)
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 
 # --- !Downs
