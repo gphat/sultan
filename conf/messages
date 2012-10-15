@@ -36,6 +36,12 @@ auth.notauthorized=You do not have permission to perform that action.
 auth.success=Successfully logged in.
 
 change.add=Add Change
+change.date_scheduled=Scheduled Date
+change.description=Description
+change.duration=Duration
+change.owner=Owner
+change.risk=Risk
+change.summary=Summary
 
 form.cancel=Cancel
 form.submit=Submit
