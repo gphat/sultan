@@ -12,6 +12,7 @@ admin.system.list=Systems
 admin.system.menu.list=Systems
 
 admin.user.add=Add User
+admin.user.add.success=User Added
 admin.user.changepassword=Change Password
 admin.user.edit=Edit User
 admin.user.list=Users
