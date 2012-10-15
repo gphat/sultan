@@ -1,10 +1,11 @@
-@(createForm: Form[models.InitialChange], users: List[(String,String)])(implicit request: AuthenticatedRequest)
+@(createForm: Form[models.InitialChange], users: List[(String,String)], types: List[(String,String)])(implicit request: AuthenticatedRequest)
 
 @main(Messages("change.add")) {
 <h1>@Messages("change.add")</h1>
-@helper.form(action = routes.Change.create(), args = 'method -> "POST") {
+@helper.form(action = routes.Change.add(), args = 'method -> "POST") {
  <fieldset>
   @helper.select(field = createForm("owner_id"), options = users, args = '_label -> Messages("change.owner"))
+  @helper.select(field = createForm("change_type_id"), options = types, args = '_label -> Messages("change.type"))
   @helper.inputText(field = createForm("summary"), args = 'class -> "span8", '_label -> Messages("change.summary"))
   @helper.inputText(field = createForm("duration"), args = 'class -> "span4", '_label -> Messages("change.duration"))
   @helper.inputText(field = createForm("risk"), args = 'class -> "span4", '_label -> Messages("change.risk"))

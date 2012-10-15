@@ -42,6 +42,7 @@ change.duration=Duration
 change.owner=Owner
 change.risk=Risk
 change.summary=Summary
+change.type=Type
 
 form.cancel=Cancel
 form.submit=Submit

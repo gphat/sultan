@@ -63,7 +63,7 @@ object SystemModel {
   /**
    * Get all systems
    */
-  def getAll(userId: Long): List[System] = {
+  def getAll: List[System] = {
     DB.withConnection { implicit conn =>
       allQuery.as(system *)
     }
