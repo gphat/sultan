@@ -4,7 +4,10 @@
 
 # Home page
 GET     /                               controllers.Core.index
-GET     /change/add                     controllers.Core.add
+
+GET     /change/add                     controllers.Change.add
+POST    /change                         controllers.Change.create
+GET     /change/:id                     controllers.Change.item(id: Long)
 
 GET     /admin                          controllers.Admin.index
 GET     /admin/reindex                  controllers.Admin.reindex

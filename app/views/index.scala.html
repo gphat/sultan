@@ -1,24 +1,5 @@
-@(createForm: Form[models.InitialChange], users: List[(String,String)])(implicit request: AuthenticatedRequest)
+@(implicit request: AuthenticatedRequest)
 
 @main("XXX") {
-
-<div class="modal hide" id="assigner">
- @helper.form(action = routes.Core.add(), args = 'method -> "POST") {
- <div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal">×</button>
-  <h3>@Messages("ticket.assign")</h3>
- </div>
- <div class="modal-body">
-   <p>@Html(Messages("ticket.assign.summary"))</p>
-   <fieldset>
-     @helper.select(field = createForm("owner_id"), options = users, args = '_label -> Messages("ticket.assignee"))
-     @helper.textarea(field = createForm("summary"), args = '_label -> Messages("ticket.comment"), 'class -> "input-xxlarge", 'rows -> 5)
-   </fieldset>
- </div>
- <div class="modal-footer">
-  <a href="#" class="btn" data-dismiss="modal">@Messages("form.cancel")</a>
-  <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>
- </div>
- }
-</div>
+HELLO WORLD
 }

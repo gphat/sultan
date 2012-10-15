@@ -1,0 +1,15 @@
+@(createForm: Form[models.InitialChange], users: List[(String,String)])(implicit request: AuthenticatedRequest)
+
+@main(Messages("change.add")) {
+<h1>@Messages("change.add")</h1>
+@helper.form(action = routes.Change.create(), args = 'method -> "POST") {
+ <fieldset>
+  @helper.select(field = createForm("owner_id"), options = users, args = '_label -> Messages("ticket.assignee"))
+  @helper.textarea(field = createForm("summary"), args = '_label -> Messages("ticket.comment"), 'class -> "input-xxlarge", 'rows -> 5)
+  <div class="form-actions">
+   <a href="@controllers.routes.Core.index()" class="btn"><i class="icon-remove"></i> @Messages("form.cancel") XXX</a>
+   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>
+  </div>
+ </fieldset>
+}
+}
