@@ -3,12 +3,11 @@
 <div class="nav-collapse">
  <ul class="nav">
   <li @if(request.path.equals("/")) { class="active" }><a href="@routes.Core.index">@Messages("general.home")</a></li>
-  <li @if(request.path.startsWith("/search")) { class="active" }><a href="#">@Messages("general.ticket")</a></li>
-  <li @if(request.path.startsWith("/timeline")) { class="active" }><a href="#">@Messages("general.timeline")</a></li>
-  <li @if(request.path.startsWith("/project")) { class="active" }><a href="#">@Messages("general.projects")</a></li>
-  <li @if(request.path.startsWith("/admin")) { class="active" }><a href="#">@Messages("general.admin")</a></li>
+  <li @if(request.path.startsWith("/search")) { class="active" }><a href="#">@Messages("general.upcoming")</a></li>
+  <li @if(request.path.startsWith("/project")) { class="active" }><a href="#">@Messages("general.completed")</a></li>
+  <li @if(request.path.startsWith("/admin")) { class="active" }><a href="@routes.Admin.index">@Messages("general.admin")</a></li>
  </ul>
- <a class="btn btn-primary" href="#">@Messages("ticket.add")</a>
+ <a class="btn btn-primary" href="#">@Messages("change.add")</a>
  <div class="btn-group pull-right">
   @if(request.user.isAnonymous) {
    <a href="@controllers.routes.Auth.login(redirectUrl = request.request.uri)" class="btn btn-primary">@Messages("auth.login")</a>

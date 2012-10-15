@@ -1,0 +1,31 @@
+@(objForm: Form[(InitialUser)])(implicit request: AuthenticatedRequest)
+
+@import helper._
+@import helper.bootstrap._
+
+@main(Messages("admin.user.add")) {
+<ul class="breadcrumb">
+ <li>
+  <a href="@routes.Admin.index">@Messages("general.admin")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
+ </li>
+ <li>
+  <a href="@controllers.admin.routes.User.index()">@Messages("admin.user.list")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
+ </li>
+ <li class="active">@Messages("admin.user.add")</li>
+</ul>
+<h1>@Messages("admin.user.add")</h1>
+@helper.form(action = controllers.admin.routes.User.add) {
+ <fieldset>
+  @helper.inputText(objForm("username"), '_label -> Messages("user.username"))
+  @helper.inputPassword(objForm("password"), '_label -> Messages("user.password"))
+  @helper.inputText(objForm("realName"), '_label -> Messages("user.realname"))
+  @helper.input(objForm("email"), '_label -> Messages("user.email")) { (id, name, value, args) =>
+      <input type="email" name="@name" id="@id" @toHtmlArgs(args)>
+  }
+  <div class="form-actions">
+   <a href="@routes.Admin.index" class="btn"><i class="icon-remove"></i> @Messages("form.cancel")</a>
+   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>
+  </div>
+ </fieldset>
+}
+}

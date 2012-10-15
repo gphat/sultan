@@ -1,0 +1,26 @@
+@(id: Long, objForm: Form[(System)])(implicit request: AuthenticatedRequest)
+
+@import helper._
+@import helper.bootstrap._
+
+@main(Messages("admin.system.edit")) {
+<ul class="breadcrumb">
+ <li>
+  <a href="@routes.Admin.index">@Messages("general.admin")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
+ </li>
+ <li>
+  <a href="@controllers.admin.routes.User.index()">@Messages("admin.system.list")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
+ </li>
+ <li class="active">@Messages("admin.system.with.id", objForm("id").value.get)</li>
+</ul>
+<h1>@Messages("admin.system.edit")</h1>
+@helper.form(action = controllers.admin.routes.System.update(id)) {
+ <fieldset>
+  @helper.inputText(objForm("name"), '_label -> Messages("system.name"))
+  <div class="form-actions">
+   <a href="@controllers.admin.routes.User.index()" class="btn">@Messages("form.cancel")</a>
+   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>
+  </div>
+ </fieldset>
+}
+}

@@ -1,0 +1,45 @@
+@(page: royal.ends.Page[models.System])(implicit request: AuthenticatedRequest)
+
+@import views.html.util._
+
+@main(Messages("admin.system.list")) {
+<ul class="breadcrumb">
+ <li>
+  <a href="@routes.Admin.index">@Messages("general.admin")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
+ </li>
+ <li class="active">@Messages("admin.system.list")</li>
+</ul>
+<div class="btn-group btn-group-above-table pull-right">
+ <a href="@controllers.admin.routes.System.create" class="btn"><i class="icon-plus"></i> @Messages("admin.system.add")</a>
+</div>
+<h1>@Messages("admin.system.list")</h1>
+@Option(page.items).filterNot(_.isEmpty).map { systems =>
+<table class="table table-bordered table-rounded table-striped">
+ <thead>
+  <th>@Messages("system.name")</th>
+  <th>@Messages("general.actions")</th>
+ </thead>
+ <tbody>
+  @systems.map { system =>
+  <tr>
+   <td><a href="@controllers.admin.routes.System.item(system.id.get)">@system.name</a></td>
+   <td class="actions" style="width: 10%">
+    <div class="btn-toolbar">
+     <div class="btn-group">
+      <a class="btn btn-mini" href="@controllers.admin.routes.System.edit(system.id.get)"><i class="icon-edit"></i> @Messages("general.edit")</a>
+     </div>
+    </div>
+   </td>
+  </tr>
+  }
+ </tbody>
+ <tfoot>
+  <tr>
+   <td colspan="4">
+     @pager(page)
+    </td>
+   </tr>
+ </tfoot>
+</table>
+}
+}

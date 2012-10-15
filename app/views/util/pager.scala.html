@@ -1,0 +1,28 @@
+@(page: royal.ends.Page[Any])(implicit request: Request[AnyContent])
+
+@import royal.ends._
+
+@if(page.items.isEmpty) {
+@Messages("pager.empty")
+} else {
+<span class="summ">@Messages("pager.summary", page.offset + 1, page.offset + page.items.size, page.total)</span>
+<div class="pagination pull-right">
+  <ul>
+    @page.prev.map { prev =>
+    <li><a href="@Library.pagerLink(params = request.queryString, path = request.path, page = page.prev.get, count = page.count)">&larr; @Messages("pager.prev")</a></li>
+    }.getOrElse {
+    <li class="disabled"><a href="#">&larr; @Messages("pager.prev")</a></li>
+    }
+    @page.firstPage.until(page.lastPage).map { pageNum =>
+    <li @if(pageNum == page.page - 1) { class="active" }>
+      <a href="@Library.pagerLink(params = request.queryString, path = request.path, page = pageNum + 1, count = page.count)">@{ pageNum + 1 }</a>
+    </li>
+    }
+    @page.next.map { next =>
+    <li><a href="@Library.pagerLink(params = request.queryString, path = request.path, page = page.next.get, count = page.count)">@Messages("pager.next") &rarr;</a></li>
+    }.getOrElse {
+    <li class="disabled"><a href="#">@Messages("pager.next") &rarr;</a></li>
+    }
+  </ul>
+</div>
+}

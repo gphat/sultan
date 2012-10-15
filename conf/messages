@@ -1,5 +1,53 @@
 breadcrumb.divider=/
 
+admin.general=General
+admin.people=People
+admin.reindex=Reindex Search
+admin.systems=Systems
 admin.title=Administration
 
+admin.system.add=Add System
+admin.system.add.success=System Added
+admin.system.list=Systems
+admin.system.menu.list=Systems
+
+admin.user.add=Add User
+admin.user.changepassword=Change Password
+admin.user.edit=Edit User
+admin.user.list=Users
+admin.user.menu.list=Users
+admin.user.edit.success=User Updated
+admin.user.password.match=Passwords must match
+admin.user.password.success=Password Saved
+admin.user.with.id=User {0}
+
 app.footer.blurb=This is <a href="http://royalends.com/sultan">Sultan</a> version {0}. Copyright &copy; 2012 Royal Ends
+
+auth.logout=Logout
+
+change.add=Add Change
+
+form.cancel=Cancel
+form.submit=Submit
+
+general.actions=Actions
+general.admin=Administration
+general.completed=Completed
+general.edit=Edit
+general.home=Home
+general.upcoming=Upcoming
+
+pager.empty=No items.
+pager.next=Next
+pager.prev=Prev
+pager.summary=Displaying {0} to {1} of {2}
+
+system.name=Name
+system.with.id=System {0}
+
+user.email=Email
+user.password=Password
+user.password.confirm=Confirm Password
+user.realname=Real Name
+user.username=Username
+user.with.id=User {0}
