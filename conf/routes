@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                               controllers.Core.index
+GET     /change/add                     controllers.Core.add
 
 GET     /admin                          controllers.Admin.index
 GET     /admin/reindex                  controllers.Admin.reindex

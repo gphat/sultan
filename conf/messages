@@ -27,7 +27,13 @@ admin.user.with.id=User {0}
 
 app.footer.blurb=This is <a href="http://royalends.com/sultan">Sultan</a> version {0}. Copyright &copy; 2012 Royal Ends
 
+auth.login=Login
+auth.failure=Login failed.
 auth.logout=Logout
+auth.logout.success=You have been logged out.
+auth.mustlogin=You must log in to perform that action.
+auth.notauthorized=You do not have permission to perform that action.
+auth.success=Successfully logged in.
 
 change.add=Add Change
 

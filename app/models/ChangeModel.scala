@@ -13,7 +13,7 @@ import royal.ends._
  * Class for an "initial" Change
  */
 case class InitialChange(
-  userId: Long, ownerId: Long, changeTypeId: Long, duration: Long, risk: Int,
+  ownerId: Long, changeTypeId: Long, duration: Long, risk: Int,
   summary: String,  description: Option[String], dateCreated: Date,
   dateScheduled: Date
 )
