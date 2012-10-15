@@ -8,16 +8,19 @@ admin.title=Administration
 
 admin.system.add=Add System
 admin.system.add.success=System Added
+admin.system.edit=Edit System
+admin.system.edit.success=System Updated
 admin.system.list=Systems
 admin.system.menu.list=Systems
+admin.system.with.id=System {0}
 
 admin.user.add=Add User
 admin.user.add.success=User Added
 admin.user.changepassword=Change Password
 admin.user.edit=Edit User
+admin.user.edit.success=User Updated
 admin.user.list=Users
 admin.user.menu.list=Users
-admin.user.edit.success=User Updated
 admin.user.password.match=Passwords must match
 admin.user.password.success=Password Saved
 admin.user.with.id=User {0}
