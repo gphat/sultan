@@ -29,7 +29,7 @@
     <th style="width: 10%"><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "type")">@Messages("change.type")</a></th>
     <th style="width: 10%">@Messages("change.status")</th>
     <th>@Messages("change.summary")</th>
-    <th>@Messages("change.owner")</th>
+    <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "owner")">@Messages("change.owner")</a></th>
     <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "date_scheduled")">@Messages("change.date_scheduled")</a></th>
     <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "duration")">@Messages("change.duration")</a></th>
    </thead>
