@@ -76,4 +76,47 @@ object JsonFormats {
       toJson(doc)
     }
   }
+
+  /**
+   * JSON conversion for FullChange
+   */
+  implicit object FullChangeFormat extends Format[FullChange] {
+    def reads(json: JsValue): FullChange = FullChange(
+      id = Id((json \ "id").as[Long]),
+      user = NamedThing(
+        id    = (json \ "user_id").as[Long],
+        name  = (json \ "user_realname").as[String],
+        i18nName = (json \ "user_realname").as[String]
+      ),
+      owner = NamedThing(
+        id = (json \ "owner_id").as[Long],
+        name = (json \ "owner_realname").as[String],
+        i18nName = (json \ "owner_realname").as[String]
+      ),
+      changeType = ColoredThing(
+        id = (json \ "change_type_id").as[Long],
+        name = (json \ "change_type_name").as[String],
+        i18nName = (json \ "change_type_name_i18n").as[String],
+        color = (json \ "change_type_color").as[String]
+      ),
+      duration = (json \ "duration").as[Long],
+      risk = (json \ "risk").as[Int],
+      summary = (json \ "summary").as[String],
+      description = (json \ "description").as[Option[String]],
+      notes = (json \ "notes").as[Option[String]],
+      dateBegun = None, // XXX
+      dateClosed = None, // XXX
+      dateCompleted = None, // XXX
+      dateCreated = new Date(), // XXX
+      dateScheduled = new Date(), // XXX
+      success = (json \ "success").as[Boolean]
+    )
+
+    def writes(obj: FullChange): JsValue = {
+
+      // Not needed
+      val doc: Map[String,JsValue] = Map.empty
+      toJson(doc)
+    }
+  }
 }

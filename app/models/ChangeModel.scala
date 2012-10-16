@@ -36,6 +36,43 @@ case class Change(
   dateScheduled: Date, success: Boolean
 )
 
+/**
+ * Class for a Full Change, which is a change with a bunch of stuff that
+ * is in the search index. Made for search results convenience
+ */
+case class FullChange(
+  id: Pk[Long] = NotAssigned,
+  user: NamedThing,
+  owner: NamedThing,
+  changeType: ColoredThing,
+  duration: Long,
+  risk: Int,
+  summary: String,
+  description: Option[String], notes: Option[String],
+  // The date the change was begun
+  dateBegun: Option[Date],
+  dateClosed: Option[Date],
+  // The date this change was completed
+  dateCompleted: Option[Date],
+  // The date this change was created
+  dateCreated: Date,
+  // The date on which this change is scheduled
+  dateScheduled: Date, success: Boolean
+)
+
+case class ColoredThing(
+  id: Long,
+  name: String,
+  i18nName: String,
+  color: String
+)
+
+case class NamedThing(
+  id: Long,
+  name: String,
+  i18nName: String
+)
+
 object ChangeModel {
 
   val allQuery = SQL("SELECT * FROM changes")

@@ -1,4 +1,4 @@
-@(filters: Map[String,Seq[String]], result: royal.ends.Search.SearchResult[models.Change])(implicit request: AuthenticatedRequest)
+@(filters: Map[String,Seq[String]], result: royal.ends.Search.SearchResult[models.FullChange])(implicit request: AuthenticatedRequest)
 
 @import royal.ends.Library
 @import views.html.util._
@@ -25,22 +25,24 @@
  <div class="span10">
   <table class="table table-bordered table-rounded table-striped ">
    <thead>
-    <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "id")">@Messages("change.id")</a></th>
+    <th style="width: 10%"><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "id")">@Messages("change.id")</a></th>
     <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "type")">@Messages("change.type")</a></th>
     <th>@Messages("change.summary")</th>
+    <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "date_scheduled")">@Messages("change.date_scheduled")</a></th>
    </thead>
    <tbody>
     @result.pager.items.map { change =>
     <tr>
      <td>@change.id.get</td>
-     <td>@change.changeTypeId</td>
+     <td><span class="label" style="background-color: #@change.changeType.color">@change.changeType.i18nName</span></td>
      <td>@change.summary</td>
+     <td>@change.dateScheduled</td>
     </tr>
     }
    </tbody>
    <tfoot>
     <tr>
-     <td colspan="3">
+     <td colspan="4">
        @pager(result.pager)
      </td>
     </tr>

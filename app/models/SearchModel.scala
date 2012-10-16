@@ -190,10 +190,10 @@ object SearchModel {
   /**
    * Search for a change.
    */
-  def searchChange(query: SearchQuery): SearchResult[Change] = {
+  def searchChange(query: SearchQuery): SearchResult[FullChange] = {
 
     val res = sultan.Search.runQuery(indexer, changeIndex, query, changeFilterMap, changeSortMap, changeFacets)
-    val hits = res.hits.map { hit => Json.fromJson[Change](Json.parse(hit.sourceAsString())) }
+    val hits = res.hits.map { hit => Json.fromJson[FullChange](Json.parse(hit.sourceAsString())) }
 
     val pager = Page(hits, query.page, query.count, res.hits.totalHits)
     Search.parseSearchResponse(pager = pager, response = res)
