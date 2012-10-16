@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET     /                               controllers.Core.index
+GET     /                               controllers.Core.index(page: Int ?= 1, count: Int ?= 10, query: String ?= "", sort: Option[String] ?= None, order: Option[String] ?= None)
 
 GET     /change/add                     controllers.Change.add
 POST    /change                         controllers.Change.create

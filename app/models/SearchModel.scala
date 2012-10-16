@@ -31,7 +31,7 @@ object SearchModel {
 
   val dateFormatter = new SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
 
-  val config = Play.configuration.getConfig("emperor")
+  val config = Play.configuration.getConfig("sultan")
   // Embedded ES
   val settings = Map(
     "path.data" -> config.get.getString("directory").getOrElse("")
@@ -81,20 +81,16 @@ object SearchModel {
           "type": "string",
           "index": "not_analyzed"
         },
+        "change_type_color": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
         "duration": {
           "type": "long",
           "index": "not_analyzed"
         },
-        "type_id": {
-          "type": "long",
-          "index": "not_analyzed"
-        },
-        "type_color": {
-          "type": "string",
-          "index": "not_analyzed"
-        },
-        "type_name": {
-          "type": "string",
+        "risk": {
+          "type": "integer",
           "index": "not_analyzed"
         },
         "summary": {
@@ -116,6 +112,10 @@ object SearchModel {
         "date_begun": {
           "type": "date",
           "format": "basic_date_time_no_millis"
+        },
+        "begun": {
+          "type": "boolean",
+          "index": "not_analyzed"
         },
         "date_closed": {
           "type": "date",
@@ -174,8 +174,7 @@ object SearchModel {
 
   /**
    * Delete all the existing indexes and recreate them. Then iterate over
-   * all the tickets and index each one and it's history.  Finally
-   * reindex all the ticket comments.
+   * all the changes and index each one.
    */
   def reIndex {
 
@@ -183,24 +182,9 @@ object SearchModel {
     checkIndices
 
     // Reindex all tickets and their history
-    // TicketModel.getAllCurrentFull.foreach { ticket =>
-    //   indexTicket(ticket)
-    //   val count = TicketModel.getAllFullCountById(ticket.ticketId)
-    //   if(count > 1) {
-    //     TicketModel.getAllFullById(ticket.ticketId).foldLeft(None: Option[FullTicket])((oldTick, newTick) => {
-    //       // First run will NOT index history because oldTick is None (as None starts the fold)
-    //       oldTick.map { ot => indexHistory(oldTick = ot, newTick = newTick) }
-
-    //       Some(newTick)
-    //     })
-    //   }
-    // }
-    // Reindex all ticket comments
-    // XXX This should be nested within the above loop to avoid having to
-    // re-fetch every fullticket.
-    // TicketModel.getAllComments.foreach { comment =>
-    //   indexComment(comment)
-    // }
+    ChangeModel.getAll.foreach { change =>
+      indexChange(change)
+    }
   }
 
   /**

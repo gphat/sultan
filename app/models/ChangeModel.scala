@@ -24,15 +24,22 @@ case class InitialChange(
 case class Change(
   id: Pk[Long] = NotAssigned, userId: Long, ownerId: Long,
   changeTypeId: Long, duration: Long, risk: Int, summary: String,
-  description: Option[String], notes: Option[String], dateBegun: Option[Date],
-  dateClosed: Option[Date], dateCompleted: Option[Date], dateCreated: Date,
+  description: Option[String], notes: Option[String],
+  // The date the change was begun
+  dateBegun: Option[Date],
+  dateClosed: Option[Date],
+  // The date this change was completed
+  dateCompleted: Option[Date],
+  // The date this change was created
+  dateCreated: Date,
+  // The date on which this change is scheduled
   dateScheduled: Date, success: Boolean
 )
 
 object ChangeModel {
 
   val allQuery = SQL("SELECT * FROM changes")
-  val getByIdQuery = SQL("SELECT * FROM changes WHERE id={change_id}")
+  val getByIdQuery = SQL("SELECT * FROM changes WHERE id={id}")
   val listQuery = SQL("SELECT * FROM changes LIMIT {offset},{count}")
   val listCountQuery = SQL("SELECT count(*) FROM changes")
   val insertQuery = SQL("INSERT INTO changes (user_id, owner_id, change_type_id, duration, risk, summary, description, date_scheduled, date_created) VALUES ({user_id}, {owner_id}, {change_type_id}, {duration}, {risk}, {summary}, {description}, {date_scheduled}, UTC_TIMESTAMP())")
@@ -43,8 +50,8 @@ object ChangeModel {
   val change = {
     get[Pk[Long]]("id") ~
     get[Long]("user_id") ~
-    get[Long]("ownerId") ~
-    get[Long]("changeTypeId") ~
+    get[Long]("owner_id") ~
+    get[Long]("change_type_id") ~
     get[Long]("duration") ~
     get[Int]("risk") ~
     get[String]("summary") ~
@@ -103,6 +110,12 @@ object ChangeModel {
   def delete(id: Long) {
     DB.withConnection { implicit conn =>
       deleteQuery.on('id -> id).execute
+    }
+  }
+
+  def getAll: List[Change] = {
+    DB.withConnection { implicit conn =>
+      allQuery.as(change *)
     }
   }
 

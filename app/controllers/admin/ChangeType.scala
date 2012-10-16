@@ -17,8 +17,7 @@ object ChangeType extends Controller with Secured {
     mapping(
       "id"    -> ignored(NotAssigned:Pk[Long]),
       "name"  -> nonEmptyText,
-      "color" -> nonEmptyText,
-      "date_created" -> ignored(new Date())
+      "color" -> nonEmptyText
     )(models.ChangeType.apply)(models.ChangeType.unapply)
   )
 
@@ -26,8 +25,7 @@ object ChangeType extends Controller with Secured {
     mapping(
       "id"    -> ignored(NotAssigned:Pk[Long]),
       "name"  -> nonEmptyText,
-      "color" -> nonEmptyText,
-      "date_created" -> ignored(new Date())
+      "color" -> nonEmptyText
     )(models.ChangeType.apply)(models.ChangeType.unapply)
   )
 
@@ -38,8 +36,8 @@ object ChangeType extends Controller with Secured {
         BadRequest(views.html.admin.change_type.create(errors))
       },
       value => {
-        val type = ChangeTypeModel.create(value)
-        Redirect(controllers.admin.routes.ChangeType.item(type.id.get)).flashing("success" -> "admin.change_type.add.success")
+        val ctype = ChangeTypeModel.create(value)
+        Redirect(controllers.admin.routes.ChangeType.item(ctype.id.get)).flashing("success" -> "admin.change_type.add.success")
       }
     )
   }
@@ -58,9 +56,9 @@ object ChangeType extends Controller with Secured {
 
   def edit(id: Long) = IsAuthenticated { implicit request =>
 
-    val type = ChangeTypeModel.getById(id)
+    val ctype = ChangeTypeModel.getById(id)
 
-    type match {
+    ctype match {
       case Some(value) => {
         Ok(views.html.admin.change_type.edit(id, editTypeForm.fill(value))(request))
       }
@@ -70,9 +68,9 @@ object ChangeType extends Controller with Secured {
 
   def item(id: Long) = IsAuthenticated { implicit request =>
 
-    val type = ChangeTypeModel.getById(id)
+    val ctype = ChangeTypeModel.getById(id)
 
-    type match {
+    ctype match {
       case Some(value) => Ok(views.html.admin.change_type.item(value)(request))
       case None => NotFound
     }
@@ -86,7 +84,7 @@ object ChangeType extends Controller with Secured {
       },
       value => {
         ChangeTypeModel.update(id, value)
-        Redirect(routes.ChangeType.item(id)).flashing("success" -> "admin.change_type.edit.success")
+        Redirect(controllers.admin.routes.ChangeType.item(id)).flashing("success" -> "admin.change_type.edit.success")
       }
     )
   }

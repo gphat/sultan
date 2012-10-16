@@ -4,6 +4,7 @@ import java.util.Date
 import models.{ChangeModel,ChangeTypeModel,UserModel}
 import play.api.data._
 import play.api.data.Forms._
+import play.api.i18n.Messages
 import play.api.mvc._
 
 object Change extends Controller with Secured {
@@ -26,15 +27,15 @@ object Change extends Controller with Secured {
     initialChangeForm.bindFromRequest.fold(
       errors => {
         val users = UserModel.getAll.map { u => (u.id.get.toString -> u.realName )}
-        val types = ChangeTypeModel.getAll.map { ct => (ct.id.get.toString -> ct.name )}
+        val types = ChangeTypeModel.getAll.map { ct => (ct.id.get.toString -> Messages(ct.name) )}
 
         BadRequest(views.html.change.create(errors, users, types))
       },
       value => {
         val change = ChangeModel.create(userId = request.user.id.get, change = value)
         change match {
-          case Some(t) => Redirect(routes.Core.index()).flashing("success" -> "ticket.add.success")
-          case None => Redirect(routes.Core.index()).flashing("error" -> "ticket.add.failure")
+          case Some(t) => Redirect(routes.Core.index()).flashing("success" -> "change.add.success")
+          case None => Redirect(routes.Core.index()).flashing("error" -> "change.add.failure")
         }
       }
     )

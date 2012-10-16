@@ -1,5 +1,5 @@
-@(type: models.ChangeType)(implicit request: AuthenticatedRequest)
-@main(Messages("admin.change_type.with.id", system.name)) {
+@(ctype: models.ChangeType)(implicit request: AuthenticatedRequest)
+@main(Messages("admin.change_type.with.id", ctype.name)) {
 <ul class="breadcrumb">
  <li>
   <a href="@routes.Admin.index">@Messages("general.admin")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
@@ -7,14 +7,16 @@
  <li>
   <a href="@controllers.admin.routes.ChangeType.index()">@Messages("admin.change_type.list")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
  </li>
- <li class="active">@type.name</li>
+ <li class="active">@Messages(ctype.name)</li>
 </ul>
-<h1><a class="btn" href="@controllers.admin.routes.ChangeType.edit(type.id.get)"><i class="icon-edit"></i></a> @Messages("change_type.with.id", type.name)</h1>
+<h1><a class="btn" href="@controllers.admin.routes.ChangeType.edit(ctype.id.get)"><i class="icon-edit"></i></a> @Messages("change_type.with.id", Messages(ctype.name))</h1>
 <div class="well well-small obj-info">
-  XXX more here
  <div class="row">
   <div class="span4">
-   <div class="info"><label>@Messages("change_type.name")</label><span>@change_type.name</span></div>
+   <div class="info">
+    <label>@Messages("change_type.name")</label><span>@Messages(ctype.name)</span>
+    <label>@Messages("change_type.color")</label><span style="background-color: #@ctype.color; padding: 5px; border: 1px solid rgba(0,0,0,.15); border-radius: 5px;">@Messages(ctype.color)</span>
+   </div>
   </div>
  </div>
 </div>

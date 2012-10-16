@@ -73,7 +73,7 @@ trait Secured {
   /**
    * Redirect to index if the user in not authenticated.
    */
-  private def onUnauthorized(request: RequestHeader) = Results.Redirect(routes.Core.index).flashing("error" -> "auth.notauthorized")
+  private def onUnauthorized(request: RequestHeader) = Results.Redirect(routes.Core.index()).flashing("error" -> "auth.notauthorized")
 
   /**
    * Action for verifying authentication and authorization of users.

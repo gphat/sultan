@@ -35,7 +35,8 @@ object Search {
       val userFilter = andFilter(termFilters.flatten.toSeq:_*)
       finalFilter.must(userFilter)
     }
-    val actualQuery = filteredQuery(queryString(if(query.query.isEmpty) "*" else query.query), finalFilter)
+    val simpleQuery = queryString(if(query.query.isEmpty) "*" else query.query)
+    val actualQuery = if(termFilters.isEmpty) simpleQuery else filteredQuery(simpleQuery, finalFilter)
 
     Logger.debug("Running ES query:")
     Logger.debug(actualQuery.toString)

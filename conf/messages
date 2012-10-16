@@ -14,6 +14,8 @@ admin.change_type.list=Change Types
 admin.change_type.menu.list=Change Types
 admin.change_type.with.id=Change Type {0}
 
+admin.reindex.success=Reindex completed.
+
 admin.system.add=Add System
 admin.system.add.success=System Added
 admin.system.edit=Edit System
@@ -44,6 +46,8 @@ auth.notauthorized=You do not have permission to perform that action.
 auth.success=Successfully logged in.
 
 change.add=Add Change
+change.add.sucess=Change Created
+change.add.failure=Failed to add change!
 change.date_scheduled=Scheduled Date
 change.description=Description
 change.duration=Duration
@@ -51,6 +55,10 @@ change.owner=Owner
 change.risk=Risk
 change.summary=Summary
 change.type=Type
+
+change_type.color=Color
+change_type.name=Name
+change_type.with.id=Change Type {0}
 
 form.cancel=Cancel
 form.submit=Submit
@@ -76,3 +84,5 @@ user.password.confirm=Confirm Password
 user.realname=Real Name
 user.username=Username
 user.with.id=User {0}
+
+CHANGE_TYPE_CODE_RELEASE=Code Release

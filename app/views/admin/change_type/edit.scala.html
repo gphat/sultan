@@ -11,12 +11,13 @@
  <li>
   <a href="@controllers.admin.routes.ChangeType.index()">@Messages("admin.change_type.list")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
  </li>
- <li class="active">@Messages("admin.change_type.with.id", objForm("name").value.get)</li>
+ <li class="active">@Messages("admin.change_type.with.id", Messages(objForm("name").value.get))</li>
 </ul>
 <h1>@Messages("admin.change_type.edit")</h1>
 @helper.form(action = controllers.admin.routes.ChangeType.update(id)) {
  <fieldset>
   @helper.inputText(objForm("name"), '_label -> Messages("change_type.name"))
+  @helper.inputText(objForm("color"), '_label -> Messages("change_type.color"))
   <div class="form-actions">
    <a href="@controllers.admin.routes.ChangeType.index()" class="btn">@Messages("form.cancel")</a>
    <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>

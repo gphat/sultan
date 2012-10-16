@@ -20,13 +20,13 @@
   <th>@Messages("general.actions")</th>
  </thead>
  <tbody>
-  @types.map { type =>
+  @types.map { ctype =>
   <tr>
-   <td><a href="@controllers.admin.routes.ChangeType.item(type.id.get)">@change_type.name</a></td>
+   <td><a href="@controllers.admin.routes.ChangeType.item(ctype.id.get)">@Messages(ctype.name)</a></td>
    <td class="actions" style="width: 10%">
     <div class="btn-toolbar">
      <div class="btn-group">
-      <a class="btn btn-mini" href="@controllers.admin.routes.ChangeType.edit(type.id.get)"><i class="icon-edit"></i> @Messages("general.edit")</a>
+      <a class="btn btn-mini" href="@controllers.admin.routes.ChangeType.edit(ctype.id.get)"><i class="icon-edit"></i> @Messages("general.edit")</a>
      </div>
     </div>
    </td>

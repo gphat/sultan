@@ -27,7 +27,7 @@ CREATE TABLE change_types (
     PRIMARY KEY(id)
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
 
-INSERT INTO change_types (name, color) VALUES (CHANGE_TYPE_CODE_RELEASE, 'dff0d8');
+INSERT INTO change_types (name, color) VALUES ('CHANGE_TYPE_CODE_RELEASE', 'dff0d8');
 
 CREATE TABLE changes (
     id INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE changes (
     date_created DATETIME NOT NULL,
     date_scheduled DATETIME NOT NULL,
     risk TINYINT NOT NULL,
-    success TINYINT(1) NOT NULL,
+    success TINYINT(1) NOT NULL DEFAULT 0,
     PRIMARY KEY(id),
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (owner_id) REFERENCES users(id),
@@ -63,7 +63,7 @@ CREATE TABLE change_systems (
 # --- !Downs
 
 DROP TABLE change_systems;
-DROP TABLE change_types;
 DROP TABLE changes;
+DROP TABLE change_types;
 DROP TABLE systems;
 DROP TABLE users;

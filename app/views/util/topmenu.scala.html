@@ -2,9 +2,9 @@
 
 <div class="nav-collapse">
  <ul class="nav">
-  <li @if(request.path.equals("/")) { class="active" }><a href="@routes.Core.index">@Messages("general.upcoming")</a></li>
+  <li @if(request.path.equals("/")) { class="active" }><a href="@routes.Core.index()">@Messages("general.upcoming")</a></li>
   <li @if(request.path.startsWith("/project")) { class="active" }><a href="#">@Messages("general.completed")</a></li>
-  <li @if(request.path.startsWith("/admin")) { class="active" }><a href="@routes.Admin.index">@Messages("general.admin")</a></li>
+  <li @if(request.path.startsWith("/admin")) { class="active" }><a href="@routes.Admin.index()">@Messages("general.admin")</a></li>
  </ul>
  <a class="btn btn-primary" href="@controllers.routes.Change.add()">@Messages("change.add")</a>
  <div class="btn-group pull-right">

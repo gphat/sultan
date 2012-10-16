@@ -1,5 +1,52 @@
-@(implicit request: AuthenticatedRequest)
+@(filters: Map[String,Seq[String]], result: royal.ends.Search.SearchResult[models.Change])(implicit request: AuthenticatedRequest)
+
+@import royal.ends.Library
+@import views.html.util._
 
 @main("XXX") {
-HELLO WORLD
+<div class="row-fluid">
+ <div class="span2">
+  <ul class="nav nav-list well search-well">
+  @filters.map { key =>
+   <li class="filter"><a style="text-align: left" class="btn btn-mini" href="@Library.filterLink(params = request.queryString, path = request.path, name = key._1, value = "")">@Messages("search.facet.filter." + key._1, Messages(key._2(0)))<i class="icon-remove-circle icon-white"></i></a></li>
+  }
+  @if(result.facets.size > 0) {
+  @result.facets.map { facet =>
+   <li class="nav-header">@Messages("search.facet." + facet.name)</li>
+   @facet.items.map { entry =>
+   <li><a href="@Library.filterLink(params = request.queryString, path = request.path, name = facet.name, value = entry.value)">@Messages(entry.value) <span class="badge">@entry.count</span></a></li>
+   }
+  }
+  </ul>
+  } else {
+   <h5>@Messages("search.facet.none")</h5>
+  }
+ </div>
+ <div class="span10">
+  <table class="table table-bordered table-rounded table-striped ">
+   <thead>
+    <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "id")">@Messages("change.id")</a></th>
+    <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "type")">@Messages("change.type")</a></th>
+    <th>@Messages("change.summary")</th>
+   </thead>
+   <tbody>
+    @result.pager.items.map { change =>
+    <tr>
+     <td>@change.id.get</td>
+     <td>@change.changeTypeId</td>
+     <td>@change.summary</td>
+    </tr>
+    }
+   </tbody>
+   <tfoot>
+    <tr>
+     <td colspan="3">
+       @pager(result.pager)
+     </td>
+    </tr>
+   </tfoot>
+  </table>
+ </div>
+</div>
+
 }
