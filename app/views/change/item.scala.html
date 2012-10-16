@@ -1,5 +1,11 @@
 @(change: models.Change)(implicit request: AuthenticatedRequest)
 
-@main(Messages("change.add")) {
-XXX Show change!
+@main(Messages("change.with.id", change.id.get)) {
+<h2><span class="label" style="background-color: #@change.color"><i class="@change.icon"></i> @Messages(change.status)</span> @Messages("change.headline", change.id, change.summary)</h2>
+<div class="change-detail">
+  <label>@Messages("change.description")</label>
+  <span>@change.description</span>XXX markdown
+  <label>@Messages("change.notes")</label>
+  <span>@change.notes</span>XXX none text
+</div>
 }

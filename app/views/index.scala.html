@@ -27,7 +27,9 @@
    <thead>
     <th style="width: 10%"><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "id")">@Messages("change.id")</a></th>
     <th style="width: 10%"><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "type")">@Messages("change.type")</a></th>
+    <th style="width: 10%">@Messages("change.status")</th>
     <th>@Messages("change.summary")</th>
+    <th>@Messages("change.owner")</th>
     <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "date_scheduled")">@Messages("change.date_scheduled")</a></th>
     <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "duration")">@Messages("change.duration")</a></th>
    </thead>
@@ -36,7 +38,9 @@
     <tr>
      <td><a href="@routes.Change.item(change.id.get)">@change.id.get</a></td>
      <td><span class="label" style="background-color: #@change.changeType.color">@change.changeType.i18nName</span></td>
+     <td><span class="label" style="background-color: #@change.color"><i class="@change.icon"></i> @Messages(change.status)</span></td>
      <td><a href="@routes.Change.item(change.id.get)">@change.summary</a></td>
+     <td>@change.owner.name</td>
      <td>@change.dateScheduled</td>
      <td>@change.duration</td>
     </tr>
@@ -44,7 +48,7 @@
    </tbody>
    <tfoot>
     <tr>
-     <td colspan="5">
+     <td colspan="7">
        @pager(result.pager)
      </td>
     </tr>

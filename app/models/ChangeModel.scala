@@ -5,7 +5,6 @@ import anorm.SqlParser._
 import java.util.Date
 import play.api.db.DB
 import play.api.Play.current
-import scala.collection.mutable.ListBuffer
 import royal.ends._
 
 
@@ -27,6 +26,7 @@ case class Change(
   description: Option[String], notes: Option[String],
   // The date the change was begun
   dateBegun: Option[Date],
+  // The date the change was closed/canceled
   dateClosed: Option[Date],
   // The date this change was completed
   dateCompleted: Option[Date],
@@ -34,7 +34,37 @@ case class Change(
   dateCreated: Date,
   // The date on which this change is scheduled
   dateScheduled: Date, success: Boolean
-)
+) {
+  def status = if(dateClosed.isDefined) {
+      "CHANGE_STATUS_CANCELED"
+    } else if(dateCompleted.isDefined) {
+    if(success) {
+      "CHANGE_STATUS_COMPLETED_SUCCESS"
+    } else {
+      "CHANGE_STATUS_COMPLETED_FAIL"
+    }
+  } else if(dateBegun.isDefined) {
+    "CHANGE_STATUS_IN_PROGRESS"
+  } else {
+    "CHANGE_STATUS_PENDING"
+  }
+
+  def color = this.status match {
+    case "CHANGE_STATUS_CANCELED" => ""
+    case "CHANGE_STATUS_COMPLETED_SUCCESS" => "d9edf7"
+    case "CHANGE_STATUS_COMPLETED_FAIL" => "fcf8e3"
+    case "CHANGE_STATUS_IN_PROGRESS" => "dff0d8"
+    case "CHANGE_STATUS_PENDING" => "f5f5f5"
+  }
+
+  def icon = this.status match {
+    case "CHANGE_STATUS_CANCELED" => "icon_remove"
+    case "CHANGE_STATUS_COMPLETED_SUCCESS" => "icon-thumbs-up"
+    case "CHANGE_STATUS_COMPLETED_FAIL" => "icon-thumbs-down"
+    case "CHANGE_STATUS_IN_PROGRESS" => "icon-refresh"
+    case "CHANGE_STATUS_PENDING" => "icon-calendar"
+  }
+}
 
 /**
  * Class for a Full Change, which is a change with a bunch of stuff that
@@ -58,7 +88,37 @@ case class FullChange(
   dateCreated: Date,
   // The date on which this change is scheduled
   dateScheduled: Date, success: Boolean
-)
+) {
+  def status = if(dateClosed.isDefined) {
+      "CHANGE_STATUS_CANCELED"
+    } else if(dateCompleted.isDefined) {
+    if(success) {
+      "CHANGE_STATUS_COMPLETED_SUCCESS"
+    } else {
+      "CHANGE_STATUS_COMPLETED_FAIL"
+    }
+  } else if(dateBegun.isDefined) {
+    "CHANGE_STATUS_IN_PROGRESS"
+  } else {
+    "CHANGE_STATUS_PENDING"
+  }
+
+  def color = this.status match {
+    case "CHANGE_STATUS_CANCELED" => ""
+    case "CHANGE_STATUS_COMPLETED_SUCCESS" => "d9edf7"
+    case "CHANGE_STATUS_COMPLETED_FAIL" => "fcf8e3"
+    case "CHANGE_STATUS_IN_PROGRESS" => "dff0d8"
+    case "CHANGE_STATUS_PENDING" => "f5f5f5"
+  }
+
+  def icon = this.status match {
+    case "CHANGE_STATUS_CANCELED" => "icon_remove"
+    case "CHANGE_STATUS_COMPLETED_SUCCESS" => "icon-thumbs-up"
+    case "CHANGE_STATUS_COMPLETED_FAIL" => "icon-thumbs-down"
+    case "CHANGE_STATUS_IN_PROGRESS" => "icon-refresh"
+    case "CHANGE_STATUS_PENDING" => "icon-calendar"
+  }
+}
 
 case class ColoredThing(
   id: Long,

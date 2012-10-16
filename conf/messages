@@ -51,10 +51,13 @@ change.add.failure=Failed to add change!
 change.date_scheduled=Scheduled Date
 change.description=Description
 change.duration=Duration
+change.headline=Change {0}: {1}
 change.owner=Owner
 change.risk=Risk
+change.status=Status
 change.summary=Summary
 change.type=Type
+change.with.id=Change {0}
 
 change_type.color=Color
 change_type.name=Name
@@ -76,6 +79,10 @@ pager.next=Next
 pager.prev=Prev
 pager.summary=Displaying {0} to {1} of {2}
 
+search.facet.none=No facets.
+search.facet.owner=Owner
+search.facet.type=Change Type
+
 system.name=Name
 system.with.id=System {0}
 
@@ -85,6 +92,12 @@ user.password.confirm=Confirm Password
 user.realname=Real Name
 user.username=Username
 user.with.id=User {0}
+
+CHANGE_STATUS_CANCELED=Canceled
+CHANGE_STATUS_COMPLETED_FAIL=Completed Unsuccessfully
+CHANGE_STATUS_COMPLETED_SUCCESS=Completed Successfully
+CHANGE_STATUS_IN_PROGRESS=In Progress
+CHANGE_STATUS_PENDING=Pending
 
 CHANGE_TYPE_DEGRADED=Service Degradation
 CHANGE_TYPE_OUTAGE=Service Outage

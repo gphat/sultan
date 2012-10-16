@@ -85,6 +85,14 @@ object SearchModel {
           "type": "string",
           "index": "not_analyzed"
         },
+        "status_name": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "status_color": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
         "duration": {
           "type": "long",
           "index": "not_analyzed"
@@ -139,14 +147,9 @@ object SearchModel {
   """
 
   val changeFacets = Map(
-    "resolution" -> "resolution_name",
-    "type" -> "type_name",
-    "project" -> "project_name",
-    "priority" -> "priority_name",
-    "severity" -> "severity_name",
-    "status" -> "status_name",
-    "assignee" -> "assignee_name",
-    "reporter" ->"reporter_name"
+    "begun"   -> "begun",
+    "type"    -> "change_type_name",
+    "owner"   -> "owner_realname"
   )
 
   /**
