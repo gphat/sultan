@@ -137,7 +137,11 @@ object ChangeModel {
         'description  -> change.description,
         'date_scheduled -> change.dateScheduled
       ).executeInsert()
-      maybeId.map({ id => this.getById(id) }).getOrElse(None)
+      maybeId.map({ id =>
+        val c = this.getById(id)
+        SearchModel.indexChange(c.get)
+        c
+      }).getOrElse(None)
     }
   }
 

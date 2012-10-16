@@ -22,7 +22,7 @@ object ChangeTypeModel {
   val getByIdQuery = SQL("SELECT * FROM change_types WHERE id={id}")
   val listQuery = SQL("SELECT * FROM change_types LIMIT {offset},{count}")
   val listCountQuery = SQL("SELECT count(*) FROM change_types")
-  val insertQuery = SQL("INSERT INTO change_types (name, date_created) VALUES ({name}, UTC_TIMESTAMP())")
+  val insertQuery = SQL("INSERT INTO change_types (name, color) VALUES ({name}, {color})")
   val updateQuery = SQL("UPDATE change_types SET name={name}, color={color} WHERE id={id}")
   val deleteQuery = SQL("DELETE FROM change_types WHERE id={id}")
 

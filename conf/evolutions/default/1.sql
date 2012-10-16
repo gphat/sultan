@@ -28,6 +28,8 @@ CREATE TABLE change_types (
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin;
 
 INSERT INTO change_types (name, color) VALUES ('CHANGE_TYPE_CODE_RELEASE', 'dff0d8');
+INSERT INTO change_types (name, color) VALUES ('CHANGE_TYPE_DEGRADED', 'fcf8e3');
+INSERT INTO change_types (name, color) VALUES ('CHANGE_TYPE_OUTAGE', 'f2dede');
 
 CREATE TABLE changes (
     id INT UNSIGNED AUTO_INCREMENT NOT NULL,

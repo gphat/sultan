@@ -3,7 +3,7 @@
 @import royal.ends.Library
 @import views.html.util._
 
-@main("XXX") {
+@main("general.change.management") {
 <div class="row-fluid">
  <div class="span2">
   <ul class="nav nav-list well search-well">
@@ -26,23 +26,25 @@
   <table class="table table-bordered table-rounded table-striped ">
    <thead>
     <th style="width: 10%"><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "id")">@Messages("change.id")</a></th>
-    <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "type")">@Messages("change.type")</a></th>
+    <th style="width: 10%"><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "type")">@Messages("change.type")</a></th>
     <th>@Messages("change.summary")</th>
     <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "date_scheduled")">@Messages("change.date_scheduled")</a></th>
+    <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "duration")">@Messages("change.duration")</a></th>
    </thead>
    <tbody>
     @result.pager.items.map { change =>
     <tr>
-     <td>@change.id.get</td>
+     <td><a href="@routes.Change.item(change.id.get)">@change.id.get</a></td>
      <td><span class="label" style="background-color: #@change.changeType.color">@change.changeType.i18nName</span></td>
-     <td>@change.summary</td>
+     <td><a href="@routes.Change.item(change.id.get)">@change.summary</a></td>
      <td>@change.dateScheduled</td>
+     <td>@change.duration</td>
     </tr>
     }
    </tbody>
    <tfoot>
     <tr>
-     <td colspan="4">
+     <td colspan="5">
        @pager(result.pager)
      </td>
     </tr>

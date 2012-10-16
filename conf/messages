@@ -46,7 +46,7 @@ auth.notauthorized=You do not have permission to perform that action.
 auth.success=Successfully logged in.
 
 change.add=Add Change
-change.add.sucess=Change Created
+change.add.success=Change Created
 change.add.failure=Failed to add change!
 change.date_scheduled=Scheduled Date
 change.description=Description
@@ -65,6 +65,7 @@ form.submit=Submit
 
 general.actions=Actions
 general.admin=Administration
+general.change.management=Change Management
 general.completed=Completed
 general.edit=Edit
 general.home=Home
@@ -85,4 +86,6 @@ user.realname=Real Name
 user.username=Username
 user.with.id=User {0}
 
+CHANGE_TYPE_DEGRADED=Service Degradation
+CHANGE_TYPE_OUTAGE=Service Outage
 CHANGE_TYPE_CODE_RELEASE=Code Release
