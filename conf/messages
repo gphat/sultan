@@ -6,6 +6,14 @@ admin.reindex=Reindex Search
 admin.systems=Systems
 admin.title=Administration
 
+admin.change_type.add=Add Change Type
+admin.change_type.add.success=Change Type Added
+admin.change_type.edit=Edit Change Type
+admin.change_type.edit.success=Change Type Updated
+admin.change_type.list=Change Types
+admin.change_type.menu.list=Change Types
+admin.change_type.with.id=Change Type {0}
+
 admin.system.add=Add System
 admin.system.add.success=System Added
 admin.system.edit=Edit System

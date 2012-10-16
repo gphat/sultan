@@ -12,6 +12,13 @@ GET     /change/:id                     controllers.Change.item(id: Long)
 GET     /admin                          controllers.Admin.index
 GET     /admin/reindex                  controllers.Admin.reindex
 
+GET     /admin/change_type              controllers.admin.ChangeType.index(page: Int ?= 1, count: Int ?= 10)
+GET     /admin/change_type/create       controllers.admin.ChangeType.create
+GET     /admin/change_type/:id          controllers.admin.ChangeType.item(id: Long)
+POST    /admin/change_type/:id          controllers.admin.ChangeType.update(id: Long)
+GET     /admin/change_type/edit/:id     controllers.admin.ChangeType.edit(id: Long)
+POST    /admin/change_type              controllers.admin.ChangeType.add
+
 GET     /admin/user                     controllers.admin.User.index(page: Int ?= 1, count: Int ?= 10)
 GET     /admin/user/create              controllers.admin.User.create
 GET     /admin/user/:id                 controllers.admin.User.item(id: Long)
