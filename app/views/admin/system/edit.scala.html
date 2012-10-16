@@ -9,7 +9,7 @@
   <a href="@routes.Admin.index">@Messages("general.admin")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
  </li>
  <li>
-  <a href="@controllers.admin.routes.User.index()">@Messages("admin.system.list")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
+  <a href="@controllers.admin.routes.System.index()">@Messages("admin.system.list")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
  </li>
  <li class="active">@Messages("admin.system.with.id", objForm("name").value.get)</li>
 </ul>
@@ -18,7 +18,7 @@
  <fieldset>
   @helper.inputText(objForm("name"), '_label -> Messages("system.name"))
   <div class="form-actions">
-   <a href="@controllers.admin.routes.User.index()" class="btn">@Messages("form.cancel")</a>
+   <a href="@controllers.admin.routes.System.index()" class="btn">@Messages("form.cancel")</a>
    <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>
   </div>
  </fieldset>

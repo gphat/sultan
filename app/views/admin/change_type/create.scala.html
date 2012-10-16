@@ -1,0 +1,27 @@
+@(objForm: Form[(ChangeType)])(implicit request: AuthenticatedRequest)
+
+@import helper._
+@import helper.bootstrap._
+
+@main(Messages("admin.change_type.add")) {
+<ul class="breadcrumb">
+ <li>
+  <a href="@routes.Admin.index">@Messages("general.admin")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
+ </li>
+ <li>
+  <a href="@controllers.admin.routes.ChangeType.index()">@Messages("admin.change_type.list")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
+ </li>
+ <li class="active">@Messages("admin.change_type.add")</li>
+</ul>
+<h1>@Messages("admin.change_type.add")</h1>
+@helper.form(action = controllers.admin.routes.ChangeType.add) {
+ <fieldset>
+  @helper.inputText(objForm("name"), '_label -> Messages("change_type.name"))
+  @helper.inputText(objForm("color"), '_label -> Messages("change_type.color"))
+  <div class="form-actions">
+   <a href="@routes.Admin.index" class="btn"><i class="icon-remove"></i> @Messages("form.cancel")</a>
+   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>
+  </div>
+ </fieldset>
+}
+}
