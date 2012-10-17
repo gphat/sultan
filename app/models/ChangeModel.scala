@@ -7,16 +7,6 @@ import play.api.db.DB
 import play.api.Play.current
 import royal.ends._
 
-
-/**
- * Class for an "initial" Change
- */
-case class InitialChange(
-  ownerId: Long, changeTypeId: Long, duration: Long, risk: Int,
-  summary: String,  description: Option[String], dateCreated: Date,
-  dateScheduled: Date
-)
-
 /**
  * Class for a Change
  */
@@ -183,7 +173,7 @@ object ChangeModel {
   /**
    * Create a change.
    */
-  def create(userId: Long, change: InitialChange): Option[Change] = {
+  def create(userId: Long, change: Change): Option[Change] = {
 
     DB.withConnection { implicit conn =>
 
@@ -246,7 +236,7 @@ object ChangeModel {
     }
   }
 
-  def update(id: Long, change: Change): Option[Change] = {
+  def update(userId: Long, id: Long, change: Change): Option[Change] = {
 
     println("XXX " + change.dateBegun)
 

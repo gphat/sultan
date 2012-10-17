@@ -3,7 +3,8 @@
 @import sultan.TextRenderer
 
 @main(Messages("change.with.id", change.id.get)) {
-<h2><span class="label" style="background-color: #@change.color"><i class="@change.icon"></i> @Messages(change.status)</span> @Messages("change.headline", change.id, change.summary)</h2>
+<h2><span class="label" style="background-color: #@change.color"><i class="@change.icon"></i>@Messages(change.status)</span> <a class="btn" href="@routes.Change.edit(change.id.get)"><i class="icon-edit"></i></a> @Messages("change.headline", change.id, change.summary)</h2>
+<div class="change-detail">
 <div class="row">
  <div class="span4">
   <label>@Messages("change.date_created")</label>
@@ -33,11 +34,10 @@
   }
  </div>
 </div>
-<br>
-<div class="change-detail">
+</div>
   <label>@Messages("change.description")</label>
   <span>@Html(TextRenderer.render(markdown = change.description))</span>
   <label>@Messages("change.notes")</label>
   <span>@Html(TextRenderer.render(markdown = change.notes))</span>XXX none text
-</div>
+
 }

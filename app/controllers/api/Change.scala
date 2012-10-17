@@ -17,7 +17,9 @@ object Change extends Controller with Secured {
 
     maybeChange match {
       case Some(change) => {
-        ChangeModel.update(id, change.copy(dateBegun = Some(new Date()))) // XXX Ultimately this should be overridable
+        ChangeModel.update(request.user.id.get, id, change.copy(
+          dateBegun = Some(new Date()))
+        ) // XXX Ultimately this should be overridable
         val json = Json.toJson(Map("ok" -> "ok"))
         callback match {
           case Some(c) => Ok(Jsonp(c, json))
@@ -33,7 +35,9 @@ object Change extends Controller with Secured {
 
     maybeChange match {
       case Some(change) => {
-        ChangeModel.update(id, change.copy(dateClosed = Some(new Date()))) // XXX Ultimately this should be overridable
+        ChangeModel.update(request.user.id.get, id, change.copy(
+          dateClosed = Some(new Date()))
+        ) // XXX Ultimately this should be overridable
         val json = Json.toJson(Map("ok" -> "ok"))
         callback match {
           case Some(c) => Ok(Jsonp(c, json))
@@ -49,7 +53,7 @@ object Change extends Controller with Secured {
 
     maybeChange match {
       case Some(change) => {
-        ChangeModel.update(id, change.copy(
+        ChangeModel.update(request.user.id.get, id, change.copy(
           dateCompleted = Some(new Date()),
           success = false
         )) // XXX Ultimately this should be overridable
@@ -84,7 +88,7 @@ object Change extends Controller with Secured {
 
     maybeChange match {
       case Some(change) => {
-        ChangeModel.update(id, change.copy(
+        ChangeModel.update(request.user.id.get, id, change.copy(
           dateBegun = None,
           dateClosed = None,
           dateCompleted = None
@@ -104,7 +108,7 @@ object Change extends Controller with Secured {
 
     maybeChange match {
       case Some(change) => {
-        ChangeModel.update(id, change.copy(
+        ChangeModel.update(request.user.id.get, id, change.copy(
           dateCompleted = Some(new Date()),
           success = true
         )) // XXX Ultimately this should be overridable

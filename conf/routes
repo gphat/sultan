@@ -47,4 +47,6 @@ POST    /auth/login                     controllers.Auth.doLogin(redirectUrl: St
 
 GET     /change/add                     controllers.Change.add
 POST    /change                         controllers.Change.create
+GET     /change/edit/:id                controllers.Change.edit(id: Long)
 GET     /change/:id                     controllers.Change.item(id: Long)
+POST    /change/:id                     controllers.Change.update(id: Long)
