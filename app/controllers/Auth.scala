@@ -5,6 +5,7 @@ import play.api.data._
 import play.api.data.Forms._
 import play.api.Logger
 import play.api.mvc._
+import play.api.mvc.Results._
 import models._
 import org.mindrot.jbcrypt.BCrypt
 
@@ -81,21 +82,31 @@ trait Secured {
   def IsAuthenticated(f: AuthenticatedRequest => Result) = {
     Action { request =>
 
-      // First grab the user_id from the session, maybe
-      val maybeUserId = request.session.get("user_id")
+      // First try a token
+      val token = request.headers.get("Authorization")
+      token match {
+        case Some(v) => if(v.startsWith("Token token=")) {
+          val placeholderXXX = UserModel.getById(1).get
+          f(AuthenticatedRequest(placeholderXXX, request))
+        } else {
+          Forbidden("Invalid token")
+        }
+        case None => {
+          // First grab the user_id from the session, maybe
+          val maybeUserId = request.session.get("user_id")
 
-      maybeUserId match {
-        case Some(userId) => {
-          val maybeUser = UserModel.getById(userId.toLong)
-          maybeUser match {
-            case Some(user) => f(AuthenticatedRequest(user, request))
+          maybeUserId match {
+            case Some(userId) => {
+              val maybeUser = UserModel.getById(userId.toLong)
+              maybeUser match {
+                case Some(user) => f(AuthenticatedRequest(user, request))
+                case None => onUnauthenticated(request)
+              }
+            }
             case None => onUnauthenticated(request)
           }
         }
-        case None => onUnauthenticated(request)
       }
-
-
     }
   }
 }
