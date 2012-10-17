@@ -140,7 +140,7 @@ object ChangeModel {
   val listQuery = SQL("SELECT * FROM changes LIMIT {offset},{count}")
   val listCountQuery = SQL("SELECT count(*) FROM changes")
   val insertQuery = SQL("INSERT INTO changes (user_id, owner_id, change_type_id, duration, risk, summary, description, date_scheduled, date_created) VALUES ({user_id}, {owner_id}, {change_type_id}, {duration}, {risk}, {summary}, {description}, {date_scheduled}, UTC_TIMESTAMP())")
-  val updateQuery = SQL("INSERT INTO changes (ticket_id, user_id, project_id, reporter_id, assignee_id, attention_id, priority_id, severity_id, status_id, type_id, resolution_id, proposed_resolution_id, position, summary, description, date_created) VALUES ({ticket_id}, {user_id}, {project_id}, {reporter_id}, {assignee_id}, {attention_id}, {priority_id}, {severity_id}, {status_id}, {type_id}, {resolution_id}, {proposed_resolution_id}, {position}, {summary}, {description}, UTC_TIMESTAMP())")
+  val updateQuery = SQL("UPDATE changes SET owner_id={owner_id}, change_type_id={change_type_id}, success={success}, duration={duration}, risk={risk}, summary={summary}, description={description}, notes={notes}, date_begun={date_begun}, date_closed={date_closed}, date_completed={date_completed}, date_scheduled={date_scheduled} WHERE id={id}")
   val deleteQuery = SQL("DELETE FROM changes WHERE id={id}")
 
   // parser for retrieving a ticket
@@ -243,6 +243,30 @@ object ChangeModel {
       val totalRows = listCountQuery.as(scalar[Long].single)
 
       Page(changes, page, count, totalRows)
+    }
+  }
+
+  def update(id: Long, change: Change): Option[Change] = {
+
+    println("XXX " + change.dateBegun)
+
+    DB.withConnection { implicit conn =>
+      updateQuery.on(
+        'id             -> id,
+        'owner_id       -> change.ownerId,
+        'change_type_id -> change.changeTypeId,
+        'duration       -> change.duration,
+        'risk           -> change.risk,
+        'summary        -> change.summary,
+        'success        -> change.success,
+        'description    -> change.description,
+        'notes          -> change.notes,
+        'date_begun     -> change.dateBegun,
+        'date_closed    -> change.dateClosed,
+        'date_completed -> change.dateCompleted,
+        'date_scheduled -> change.dateScheduled
+      ).execute
+      getById(id)
     }
   }
 }

@@ -2,6 +2,36 @@
 
 @main(Messages("change.with.id", change.id.get)) {
 <h2><span class="label" style="background-color: #@change.color"><i class="@change.icon"></i> @Messages(change.status)</span> @Messages("change.headline", change.id, change.summary)</h2>
+<div class="row">
+ <div class="span4">
+  <label>@Messages("change.date_created")</label>
+  <span>@change.dateCreated</span>
+ </div>
+ <div class="span4">
+  @if(change.dateBegun.isDefined) {
+    <label>@Messages("change.friendly.date_begun")</label>
+    <span>@change.dateBegun</span>
+  } else {
+    <label>@Messages("change.friendly.date_scheduled")</label>
+    <span>@change.dateScheduled</span>
+  }
+ </div>
+ <div class="span4">
+  @if(change.dateClosed.isDefined) {
+    <label>@Messages("change.date_closed")</label>
+    <span>@change.dateClosed</span>
+  } else {
+    @if(change.dateCompleted.isDefined) {
+    <label>@Messages("change.friendly.date_completed")</label>
+    <span>change.dateCompleted</span>
+    } else {
+    <label>@Messages("change.friendly.date_estimated")</label>
+    <span>XXX</span>
+    }
+  }
+ </div>
+</div>
+<br>
 <div class="change-detail">
   <label>@Messages("change.description")</label>
   <span>@change.description</span>XXX markdown
