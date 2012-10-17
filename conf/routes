@@ -5,10 +5,6 @@
 # Home page
 GET     /                               controllers.Core.index(page: Int ?= 1, count: Int ?= 10, query: String ?= "", sort: Option[String] ?= None, order: Option[String] ?= None)
 
-GET     /change/add                     controllers.Change.add
-POST    /change                         controllers.Change.create
-GET     /change/:id                     controllers.Change.item(id: Long)
-
 GET     /admin                          controllers.Admin.index
 GET     /admin/reindex                  controllers.Admin.reindex
 
@@ -34,9 +30,15 @@ POST    /admin/system/:id               controllers.admin.System.update(id: Long
 GET     /admin/system/edit/:id          controllers.admin.System.edit(id: Long)
 POST    /admin/system                   controllers.admin.System.add
 
+GET     /api/change/:id                 controllers.api.Change.item(id: Long, callback: Option[String] ?= None)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                   controllers.Assets.at(path="/public", file)
 
 GET     /auth/login                     controllers.Auth.login(redirectUrl: String ?= "/")
 GET     /auth/logout                    controllers.Auth.logout
 POST    /auth/login                     controllers.Auth.doLogin(redirectUrl: String ?= "/")
+
+GET     /change/add                     controllers.Change.add
+POST    /change                         controllers.Change.create
+GET     /change/:id                     controllers.Change.item(id: Long)
