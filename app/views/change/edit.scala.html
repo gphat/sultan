@@ -1,0 +1,23 @@
+@(changeId: Long, form: Form[models.Change], users: List[(String,String)], types: List[(String,String)])(implicit request: AuthenticatedRequest)
+
+@main(Messages("change.edit", changeId)) {
+<h1>@Messages("change.edit", changeId)</h1>
+@helper.form(action = routes.Change.update(id = changeId), args = 'method -> "POST") {
+ <fieldset>
+  @helper.select(field = form("owner_id"), options = users, args = '_label -> Messages("change.owner"))
+  @helper.select(field = form("change_type_id"), options = types, args = '_label -> Messages("change.type"))
+  @helper.inputText(field = form("summary"), args = 'class -> "span8", '_label -> Messages("change.summary"))
+  @helper.inputText(field = form("duration"), args = 'class -> "span4", '_label -> Messages("change.duration"))
+  @helper.inputText(field = form("risk"), args = 'class -> "span4", '_label -> Messages("change.risk"))
+  @helper.textarea(field = form("description"), args = '_label -> Messages("change.description"), 'class -> "input-xxlarge", 'rows -> 5)
+  @helper.inputText(field = form("date_begun"), args = 'class -> "span4", '_label -> Messages("change.date_begun"))
+  @helper.inputText(field = form("date_closed"), args = 'class -> "span4", '_label -> Messages("change.date_closed"))
+  @helper.inputText(field = form("date_completed"), args = 'class -> "span4", '_label -> Messages("change.date_completed"))
+  @helper.inputText(field = form("date_scheduled"), args = 'class -> "span4", '_label -> Messages("change.date_scheduled"))
+  <div class="form-actions">
+   <a href="@controllers.routes.Core.index()" class="btn"><i class="icon-remove"></i> @Messages("form.cancel") XXX</a>
+   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>
+  </div>
+ </fieldset>
+}
+}
