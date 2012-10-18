@@ -52,8 +52,13 @@ object SearchModel {
     "begun"       -> "begun"
   )
   val changeSortMap = Map(
-    "date_created"-> "date_created",
-    "id"          -> "id"
+    "date_created"    -> "date_created",
+    "date_scheduled"  -> "date_scheduled",
+    "duration"        -> "duration",
+    "id"              -> "id",
+    "owner"           -> "owner_realname",
+    "risk"            -> "risk",
+    "type"            -> "change_type_name"
   )
   // XXX booleans for begun, etc
   val changeMapping = """

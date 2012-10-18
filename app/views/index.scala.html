@@ -31,6 +31,7 @@
     <th>@Messages("change.summary")</th>
     <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "owner")">@Messages("change.owner")</a></th>
     <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "date_scheduled")">@Messages("change.date_scheduled")</a></th>
+    <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "risk")">@Messages("change.risk")</a></th>
     <th><a href="@Library.sortLink(params = request.queryString, path = request.path, name = "duration")">@Messages("change.duration")</a></th>
    </thead>
    <tbody>
@@ -42,13 +43,14 @@
      <td><a href="@routes.Change.item(change.id.get)">@change.summary</a></td>
      <td>@change.owner.name</td>
      <td>@change.dateScheduled</td>
+     <td>@change.risk</td>
      <td>@change.duration</td>
     </tr>
     }
    </tbody>
    <tfoot>
     <tr>
-     <td colspan="7">
+     <td colspan="8">
        @pager(result.pager)
      </td>
     </tr>

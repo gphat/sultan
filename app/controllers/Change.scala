@@ -2,7 +2,7 @@ package controllers
 
 import anorm._
 import java.util.Date
-import models.{ChangeModel,ChangeTypeModel,UserModel}
+import models.{ChangeModel,ChangeTypeModel,SearchModel,UserModel}
 import play.api.data._
 import play.api.data.Forms._
 import play.api.i18n.Messages
@@ -115,7 +115,10 @@ object Change extends Controller with Secured {
       value => {
         val change = ChangeModel.update(userId = request.user.id.get, id = id, change = value)
         change match {
-          case Some(t) => Redirect(routes.Change.item(id)).flashing("success" -> "change.edit.success")
+          case Some(c) => {
+            SearchModel.indexChange(c)
+            Redirect(routes.Change.item(id)).flashing("success" -> "change.edit.success")
+          }
           case None => Redirect(routes.Change.item(id)).flashing("error" -> "change.edit.failure")
         }
       }
