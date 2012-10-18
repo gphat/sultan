@@ -238,8 +238,6 @@ object ChangeModel {
 
   def update(userId: Long, id: Long, change: Change): Option[Change] = {
 
-    println("XXX " + change.dateBegun)
-
     DB.withConnection { implicit conn =>
       updateQuery.on(
         'id             -> id,

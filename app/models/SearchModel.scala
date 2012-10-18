@@ -46,7 +46,10 @@ object SearchModel {
   val changeIndex = "changes"
   val changeType = "change"
   val changeFilterMap = Map(
-    "type"        -> "type_name"
+    "type"        -> "change_type_name",
+    "owner"       -> "owner_realname",
+    "completed"   -> "completed",
+    "begun"       -> "begun"
   )
   val changeSortMap = Map(
     "date_created"-> "date_created",

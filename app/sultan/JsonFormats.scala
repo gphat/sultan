@@ -19,6 +19,10 @@ object JsonFormats {
   private def optionI18nStringtoJsValue(maybeId: Option[String]) = maybeId.map({ s => JsString(Messages(s)) }).getOrElse(JsNull)
   private def optionStringtoJsValue(maybeId: Option[String]) = maybeId.map({ s => JsString(s) }).getOrElse(JsNull)
 
+  private def optionJsValueToDate(maybeDate: Option[String]) = maybeDate.map({ d =>
+    try { Some(dateFormatter.parse(d)) } catch { case _ => None }
+  }).getOrElse(None)
+
   // XXX UNIT TESTS FOR THE LOVE OF GOD
 
   /**
@@ -35,11 +39,11 @@ object JsonFormats {
       summary = (json \ "summary").as[String],
       description = (json \ "description").as[Option[String]],
       notes = (json \ "notes").as[Option[String]],
-      dateBegun = None, // XXX
-      dateClosed = None, // XXX
-      dateCompleted = None, // XXX
-      dateCreated = new Date(), // XXX
-      dateScheduled = new Date(), // XXX
+      dateBegun = optionJsValueToDate((json \ "date_begun").as[Option[String]]),
+      dateClosed = optionJsValueToDate((json \ "date_closed").as[Option[String]]),
+      dateCompleted = optionJsValueToDate((json \ "date_completed").as[Option[String]]),
+      dateCreated = dateFormatter.parse((json \ "date_created").as[String]),
+      dateScheduled = dateFormatter.parse((json \ "date_scheduled").as[String]),
       success = (json \ "success").as[Boolean]
     )
 
@@ -107,11 +111,11 @@ object JsonFormats {
       summary = (json \ "summary").as[String],
       description = (json \ "description").as[Option[String]],
       notes = (json \ "notes").as[Option[String]],
-      dateBegun = None, // XXX
-      dateClosed = None, // XXX
-      dateCompleted = None, // XXX
-      dateCreated = new Date(), // XXX
-      dateScheduled = new Date(), // XXX
+      dateBegun = optionJsValueToDate((json \ "date_begun").as[Option[String]]),
+      dateClosed = optionJsValueToDate((json \ "date_closed").as[Option[String]]),
+      dateCompleted = optionJsValueToDate((json \ "date_completed").as[Option[String]]),
+      dateCreated = dateFormatter.parse((json \ "date_created").as[String]),
+      dateScheduled = dateFormatter.parse((json \ "date_scheduled").as[String]),
       success = (json \ "success").as[Boolean]
     )
 
