@@ -18,8 +18,16 @@
   @helper.inputText(field = form("date_scheduled"), args = 'class -> "span4", '_label -> Messages("change.date_scheduled"))
   <div class="form-actions">
    <a href="@controllers.routes.Core.index()" class="btn"><i class="icon-remove"></i> @Messages("form.cancel") XXX</a>
-   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>
+   <button type="submit" id="save-edit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>
   </div>
  </fieldset>
+ <script>
+ YUI().use('event', function (Y) {
+  Y.one("#save-edit").on('click', function(e) {
+    var durfield = Y.one("#duration");
+    durfield.set("value", juration.parse(durfield.get("value")));
+  })
+ });
+ </script>
 }
 }

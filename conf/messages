@@ -55,6 +55,7 @@ change.date_created=Created Date
 change.date_scheduled=Scheduled Date
 change.description=Description
 change.duration=Duration
+change.duration.error=Invalid duration.
 change.edit=Edit Change {0}
 change.edit.success=Saved Change
 change.edit.failure=Failed to save change!
