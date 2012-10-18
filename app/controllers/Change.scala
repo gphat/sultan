@@ -73,7 +73,7 @@ object Change extends Controller with Secured {
 
     val userId = request.user.id
     val users = UserModel.getAll.map { u => (u.id.get.toString -> u.realName )}
-    val types = ChangeTypeModel.getAll.map { ct => (ct.id.get.toString -> ct.name )}
+    val types = ChangeTypeModel.getAll.map { ct => (ct.id.get.toString -> Messages(ct.name) )}
 
     Ok(views.html.change.create(addForm, users, types))
   }
