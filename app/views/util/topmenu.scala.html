@@ -7,6 +7,9 @@
   <li @if(request.queryString.get("completed").isDefined) { class="active" }><a href="@routes.Core.index()?completed=true">@Messages("general.completed")</a></li>
   <li @if(request.path.startsWith("/admin")) { class="active" }><a href="@routes.Admin.index()">@Messages("general.admin")</a></li>
  </ul>
+@helper.form(action = routes.Core.index(), 'class -> "navbar-search") {
+ <input type="text" name="query" class="search-query" placeholder="Search">
+}
  <a class="btn btn-primary" href="@controllers.routes.Change.create()">@Messages("change.add")</a>
  <div class="btn-group pull-right">
   @if(request.user.isAnonymous) {
