@@ -53,6 +53,7 @@ change.date_closed=Close Date
 change.date_completed=Completion Date
 change.date_created=Created Date
 change.date_scheduled=Scheduled Date
+change.time_scheduled=Scheduled Time
 change.description=Description
 change.duration=Duration
 change.duration.error=Invalid duration.

@@ -77,7 +77,7 @@ object JsonFormats {
         "date_completed"-> optionDatetoJsValue(obj.dateCompleted),
         "completed"     -> JsBoolean(obj.dateCompleted.isDefined),
         "date_created"  -> JsString(dateFormatter.format(obj.dateCreated)),
-        "date_scheduled"-> JsString(dateFormatter.format(obj.dateCreated)),
+        "date_scheduled"-> JsString(dateFormatter.format(obj.dateScheduled)),
         "success"       -> JsBoolean(obj.success)
       )
       toJson(doc)

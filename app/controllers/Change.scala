@@ -1,6 +1,7 @@
 package controllers
 
 import anorm._
+import java.text.SimpleDateFormat
 import java.util.Date
 import models.{ChangeModel,ChangeTypeModel,SearchModel,UserModel}
 import play.api.data._
@@ -9,6 +10,10 @@ import play.api.i18n.Messages
 import play.api.mvc._
 
 object Change extends Controller with Secured {
+
+  val dateFormatter = new SimpleDateFormat("yyyy-MM-dd")
+  val finalFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm")
+  val timeFormatter = new SimpleDateFormat("HH:mm")
 
   val addForm = Form(
     mapping(
@@ -26,8 +31,11 @@ object Change extends Controller with Secured {
       "date_completed" -> optional(ignored[Date](new Date())),
       "date_created" -> ignored[Date](new Date()),
       "date_scheduled" -> date,
+      "time_scheduled" -> nonEmptyText,
       "success"      -> ignored[Boolean](false)
-    )(models.Change.apply)(models.Change.unapply)
+    )
+    ((id, user_id, owner_id, change_type_id, duration, risk, summary, description, notes, date_begun, date_closed, date_completed, date_created, date_scheduled, time_scheduled, success) => models.Change(id, user_id, owner_id, change_type_id, duration, risk, summary, description, notes, date_begun, date_closed, date_completed, date_created, finalFormatter.parse(dateFormatter.format(date_scheduled) + " " + time_scheduled), success))
+    ((change: models.Change) => Some((change.id, change.userId, change.ownerId, change.changeTypeId, change.duration, change.risk, change.summary, change.description, change.notes, change.dateBegun, change.dateClosed, change.dateCompleted, change.dateCreated, change.dateScheduled, timeFormatter.format(change.dateScheduled), change.success)))
   )
 
   val editForm = Form(

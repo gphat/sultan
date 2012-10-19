@@ -1,5 +1,5 @@
 @(elements: helper.FieldElements)
-<div class="control-group @if(elements.hasErrors) {error}">
+<div class="control-group @if(elements.args.get('controlClass)) { @elements.args.get('controlClass) } @if(elements.hasErrors) {error}">
  <label class="control-label" for="@elements.id">@elements.label</label>
  <div class="controls">
   <div class="@if(elements.args.get('prepend).isDefined) {input-prepend} @if(elements.args.get('append).isDefined) {input-append}">
