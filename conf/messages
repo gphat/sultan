@@ -74,6 +74,9 @@ change.owner=Owner
 change.risk=Risk
 change.status=Status
 change.summary=Summary
+change.time_begun=Time Begun
+change.time_closed=Time Closed
+change.time_completed=Time Completed
 change.type=Type
 change.with.id=Change {0}
 
