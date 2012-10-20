@@ -15,6 +15,24 @@ object Change extends Controller with Secured {
   val finalFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm")
   val timeFormatter = new SimpleDateFormat("HH:mm")
 
+  def deriveDate(date: Option[Date], time: Option[String]): Option[Date] = {
+
+    if(date.isDefined && time.isDefined) {
+      Some(finalFormatter.parse(dateFormatter.format(date) + " " + time))
+    } else {
+      None
+    }
+  }
+
+  def getTime(date: Option[Date]): Option[String] = {
+
+    if(date.isDefined) {
+      Some(timeFormatter.format(date))
+    } else {
+      None
+    }
+  }
+
   val addForm = Form(
     mapping(
       "id"          -> ignored(NotAssigned:Pk[Long]),
@@ -26,7 +44,8 @@ object Change extends Controller with Secured {
       "summary"     -> nonEmptyText,
       "description" -> optional(text),
       "notes"       -> optional(ignored[String]("")),
-      "date_begun" -> optional(ignored[Date](new Date())),
+      "date_begun"  -> optional(ignored[Date](new Date())),
+      "time_scheduled" -> optional(text),
       "date_closed" -> optional(ignored[Date](new Date())),
       "date_completed" -> optional(ignored[Date](new Date())),
       "date_created" -> ignored[Date](new Date()),
@@ -34,8 +53,8 @@ object Change extends Controller with Secured {
       "time_scheduled" -> nonEmptyText,
       "success"      -> ignored[Boolean](false)
     )
-    ((id, user_id, owner_id, change_type_id, duration, risk, summary, description, notes, date_begun, date_closed, date_completed, date_created, date_scheduled, time_scheduled, success) => models.Change(id, user_id, owner_id, change_type_id, duration, risk, summary, description, notes, date_begun, date_closed, date_completed, date_created, finalFormatter.parse(dateFormatter.format(date_scheduled) + " " + time_scheduled), success))
-    ((change: models.Change) => Some((change.id, change.userId, change.ownerId, change.changeTypeId, change.duration, change.risk, change.summary, change.description, change.notes, change.dateBegun, change.dateClosed, change.dateCompleted, change.dateCreated, change.dateScheduled, timeFormatter.format(change.dateScheduled), change.success)))
+    ((id, user_id, owner_id, change_type_id, duration, risk, summary, description, notes, date_begun, time_begun, date_closed, date_completed, date_created, date_scheduled, time_scheduled, success) => models.Change(id, user_id, owner_id, change_type_id, duration, risk, summary, description, notes, deriveDate(date_begun, time_begun), date_closed, date_completed, date_created, finalFormatter.parse(dateFormatter.format(date_scheduled) + " " + time_scheduled), success))
+    ((change: models.Change) => Some((change.id, change.userId, change.ownerId, change.changeTypeId, change.duration, change.risk, change.summary, change.description, change.notes, change.dateBegun, getTime(change.dateBegun), change.dateClosed, change.dateCompleted, change.dateCreated, change.dateScheduled, timeFormatter.format(change.dateScheduled), change.success)))
   )
 
   val editForm = Form(
@@ -50,12 +69,35 @@ object Change extends Controller with Secured {
       "description" -> optional(text),
       "notes"       -> optional(ignored[String]("")),
       "date_begun" -> optional(date),
+      "time_begun" -> optional(text),
       "date_closed" -> optional(date),
+      "time_closed" -> optional(text),
       "date_completed" -> optional(date),
       "date_created" -> ignored[Date](new Date()),
       "date_scheduled" -> date,
+      "time_scheduled" -> nonEmptyText,
       "success"      -> boolean
-    )(models.Change.apply)(models.Change.unapply)
+    )
+    ((id, user_id, owner_id, change_type_id, duration, risk, summary, description, notes, date_begun, time_begun, date_closed, time_closed, date_completed, date_created, date_scheduled, time_scheduled, success) => {
+      models.Change(
+        id = id,
+        userId = user_id,
+        ownerId = owner_id,
+        changeTypeId = change_type_id,
+        duration = duration,
+        risk = risk,
+        summary = summary,
+        description = description,
+        notes = notes,
+        dateBegun = deriveDate(date_begun, time_begun),
+        dateClosed = deriveDate(date_closed, time_closed),
+        dateCompleted = date_completed,
+        dateCreated = date_created,
+        dateScheduled = deriveDate(Some(date_scheduled), Some(time_scheduled)).get,
+        success = success
+      )
+    })
+    ((change: models.Change) => Some((change.id, change.userId, change.ownerId, change.changeTypeId, change.duration, change.risk, change.summary, change.description, change.notes, change.dateBegun, getTime(change.dateBegun), change.dateClosed, getTime(change.dateClosed), change.dateCompleted, change.dateCreated, change.dateScheduled, timeFormatter.format(change.dateScheduled), change.success)))
   )
 
   def add = IsAuthenticated { implicit request =>

@@ -12,10 +12,17 @@
   @helper.inputText(field = form("duration"), args = 'class -> "span4", '_label -> Messages("change.duration"))
   @helper.inputText(field = form("risk"), args = 'class -> "span4", '_label -> Messages("change.risk"))
   @helper.textarea(field = form("description"), args = '_label -> Messages("change.description"), 'class -> "input-xxlarge", 'rows -> 5)
-  @helper.inputText(field = form("date_begun"), args = 'class -> "span4", '_label -> Messages("change.date_begun"))
-  @helper.inputText(field = form("date_closed"), args = 'class -> "span4", '_label -> Messages("change.date_closed"))
-  @helper.inputText(field = form("date_completed"), args = 'class -> "span4", '_label -> Messages("change.date_completed"))
-  @helper.inputText(field = form("date_scheduled"), args = 'class -> "span4", '_label -> Messages("change.date_scheduled"))
+  @helper.inputText(field = form("date_begun"), args = 'controlClass -> "pull-left", 'class -> "datepicker", '_label -> Messages("change.date_begun"), 'append -> Html("<i class=\"icon-calendar\"></i>"))
+  @helper.inputText(field = form("time_begun"), args = 'class -> "timepicker", '_label -> Messages("change.time_begun"), 'append -> Html("<i class=\"icon-time\"></i>"))
+
+  @helper.inputText(field = form("date_closed"), args = 'controlClass -> "pull-left", 'class -> "datepicker", '_label -> Messages("change.date_closed"), 'append -> Html("<i class=\"icon-calendar\"></i>"))
+  @helper.inputText(field = form("time_closed"), args = 'class -> "timepicker", '_label -> Messages("change.time_closed"), 'append -> Html("<i class=\"icon-time\"></i>"))
+
+  @helper.inputText(field = form("date_completed"), args = 'controlClass -> "pull-left", 'class -> "datepicker", '_label -> Messages("change.date_completed"), 'append -> Html("<i class=\"icon-calendar\"></i>"))
+  @helper.inputText(field = form("time_completed"), args = 'class -> "timepicker", '_label -> Messages("change.time_completed"), 'append -> Html("<i class=\"icon-time\"></i>"))
+
+  @helper.inputText(field = form("date_scheduled"), args = 'controlClass -> "pull-left", 'class -> "datepicker", '_label -> Messages("change.date_scheduled"), 'append -> Html("<i class=\"icon-calendar\"></i>"))
+  @helper.inputText(field = form("time_scheduled"), args = 'class -> "timepicker", '_label -> Messages("change.time_scheduled"), 'append -> Html("<i class=\"icon-time\"></i>"))
   <div class="form-actions">
    <a href="@controllers.routes.Core.index()" class="btn"><i class="icon-remove"></i> @Messages("form.cancel") XXX</a>
    <button type="submit" id="save-edit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>
@@ -27,6 +34,8 @@
     var durfield = Y.one("#duration");
     durfield.set("value", juration.parse(durfield.get("value")));
   })
+  $('.datepicker').datepicker({ format: "yyyy-mm-dd" });
+  $('.timepicker').timePicker({ step: 15 });
  });
  </script>
 }
