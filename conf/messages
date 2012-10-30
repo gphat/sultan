@@ -35,7 +35,7 @@ admin.user.password.match=Passwords must match
 admin.user.password.success=Password Saved
 admin.user.with.id=User {0}
 
-app.footer.blurb=This is <a href="http://royalends.com/sultan">Sultan</a> version {0}. Copyright &copy; 2012 Royal Ends
+app.footer.blurb=This is Sultan version {0}.
 
 auth.login=Login
 auth.failure=Login failed.

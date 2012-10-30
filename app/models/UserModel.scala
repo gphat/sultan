@@ -7,7 +7,7 @@ import org.mindrot.jbcrypt.BCrypt
 import play.api.db.DB
 import play.api.i18n.Messages
 import play.api.Play.current
-import royal.ends._
+import sultan._
 
 case class User(id: Pk[Long] = NotAssigned, username: String, password: String, realName: String, email: String, dateCreated: Date) {
   def isAnonymous = username.equals("anonymous")

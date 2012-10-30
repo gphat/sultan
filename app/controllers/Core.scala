@@ -6,7 +6,7 @@ import play.api._
 import play.api.mvc._
 import play.api.mvc.Security._
 import play.db._
-import royal.ends.Search._
+import sultan.Search._
 
 object Core extends Controller with Secured {
 

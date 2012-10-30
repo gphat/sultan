@@ -5,7 +5,7 @@ import anorm.SqlParser._
 import java.util.Date
 import play.api.db.DB
 import play.api.Play.current
-import royal.ends._
+import sultan._
 
 /**
  * Class for a change type.

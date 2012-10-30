@@ -22,8 +22,8 @@ import org.elasticsearch.client._, transport._
 import org.elasticsearch.common.settings.ImmutableSettings._
 import org.elasticsearch.node._, NodeBuilder._
 
-import royal.ends._
-import royal.ends.Search._
+import sultan._
+import sultan.Search._
 import scala.collection.JavaConversions._
 import sultan.JsonFormats._
 

@@ -2,8 +2,6 @@ package sultan
 
 import collection.JavaConversions._
 import com.traackr.scalastic.elasticsearch.Indexer
-import royal.ends._
-import royal.ends.Search._
 import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.index.query._
 import org.elasticsearch.index.query.FilterBuilders._
@@ -16,6 +14,52 @@ import org.elasticsearch.search.sort._
 import play.api.Logger
 
 object Search {
+
+  /**
+   * Case class for search queries
+   */
+  case class SearchQuery(
+    userId: Long,
+    page: Int = 1,
+    count: Int = 10,
+    query: String = "",
+    filters: Map[String, Seq[String]] = Map.empty,
+    sortBy: Option[String] = Some("date_created"),
+    sortOrder: Option[String] = None
+  )
+
+  case class Facet(value: String, count: Long)
+  case class Facets(name: String, items: Seq[Facet])
+  case class SearchResult[A](pager: Page[A], facets: Seq[Facets])
+
+  def parseSearchResponse[A](pager: Page[A], response: SearchResponse): SearchResult[A] = {
+
+    val facets = response.facets.facets map { facet =>
+      Facets(
+        name  = facet.getName,
+        items = facet match {
+          case t: InternalStringTermsFacet => {
+            t.entries map { fitem =>
+              Facet(
+                value = fitem.getTerm,
+                count = fitem.getCount
+              )
+            }
+          }
+          case t: InternalLongTermsFacet => {
+            t.entries map { fitem =>
+              Facet(
+                value = fitem.getTerm,
+                count = fitem.getCount
+              )
+            }
+          }
+        }
+      )
+    } filter { f => f.items.size > 1 } // Eliminate facets with only one item
+
+    SearchResult(pager = pager, facets = facets)
+  }
 
   def runQuery(indexer: Indexer, index: String, query: SearchQuery, filterMap: Map[String,String], sortMap: Map[String,String], facets: Map[String,String] = Map.empty): SearchResponse = {
 
