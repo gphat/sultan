@@ -24,14 +24,7 @@ object Change extends Controller with Secured {
     }
   }
 
-  def getTime(date: Option[Date]): Option[String] = {
-
-    if(date.isDefined) {
-      Some(timeFormatter.format(date))
-    } else {
-      None
-    }
-  }
+  def getTime(date: Option[Date]): Option[String] = date.map({ d => Some(timeFormatter.format(d)) }).getOrElse(None)
 
   val addForm = Form(
     mapping(
