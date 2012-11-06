@@ -13,10 +13,6 @@ import sultan.MoreForms._
 
 object Change extends Controller with Secured {
 
-  val dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-  val finalFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm")
-  val timeFormatter = DateTimeFormat.forPattern("HH:mm")
-
   def deriveDate(date: Option[DateTime], time: Option[LocalTime]): Option[DateTime] = {
 
     if(date.isDefined) {

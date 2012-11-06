@@ -1,16 +1,31 @@
 package sultan
 
-import java.text.SimpleDateFormat
-import java.util.Date
+import controllers.AuthenticatedRequest
+import collection.JavaConversions._
 
+import org.joda.time.format.{DateTimeFormat,DateTimeFormatter,ISODateTimeFormat}
+import org.joda.time.{DateTime,DateTimeZone}
+
+/**
+ * Utilities for formatting dates.
+ */
 object DateFormatter {
 
-  val longFormatter = new SimpleDateFormat("EEE, MMM d, yyyy")
+  val longDateTimeFormatter = DateTimeFormat.forPattern("h:mm aa z EEE, MMM d, yyyy")
+  val isoFormatter = ISODateTimeFormat.dateTime()
+
+  def displayLongDateTime(dt: Option[DateTime]): String = displayLongDateTime(dt.get)
 
   /**
-   * Format a date (in seconds) into "long" string.
+   * Formats a DateTime into a "long" string ("h:mm aa EEE, MMM d, yyyy") in
+   * the user's Time Zone.
    */
-  def displayLongDate(timestamp: Long): String = {
-    longFormatter.format(new Date(timestamp * 1000))
+  def displayLongDateTime(dt: DateTime): String = {
+    longDateTimeFormatter.print(dt.withZone(DateTimeZone.forID("America/Los_Angeles")))
   }
+
+  /**
+   * Formats a DateTime into an ISO8601 string (in UTC)
+   */
+  def displayISO8601(dt: DateTime): String = isoFormatter.print(dt.withZone(DateTimeZone.UTC))
 }

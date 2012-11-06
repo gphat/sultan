@@ -16,7 +16,7 @@ object ApplicationBuild extends Build {
       "org.pegdown"   % "pegdown"                 % "1.1.0",
       "javax.mail"    % "mail"                    % "1.4.1",
       "org.apache.commons" % "commons-email"      % "1.2",
-      "org.pegdown"   % "pegdown"                 % "1.1.0"
+      "org.pegdown"   % "pegdown"                 % "1.1.0",
       "joda-time"     % "joda-time"               % "2.1"
     )
 
