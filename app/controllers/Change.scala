@@ -2,29 +2,35 @@ package controllers
 
 import anorm._
 import java.text.SimpleDateFormat
-import java.util.Date
 import models.{ChangeModel,ChangeTypeModel,SearchModel,UserModel}
+import org.joda.time.{DateTime,LocalTime}
+import org.joda.time.format.DateTimeFormat
 import play.api.data._
 import play.api.data.Forms._
 import play.api.i18n.Messages
 import play.api.mvc._
+import sultan.MoreForms._
 
 object Change extends Controller with Secured {
 
-  val dateFormatter = new SimpleDateFormat("yyyy-MM-dd")
-  val finalFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm")
-  val timeFormatter = new SimpleDateFormat("HH:mm")
+  val dateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
+  val finalFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm")
+  val timeFormatter = DateTimeFormat.forPattern("HH:mm")
 
-  def deriveDate(date: Option[Date], time: Option[String]): Option[Date] = {
+  def deriveDate(date: Option[DateTime], time: Option[LocalTime]): Option[DateTime] = {
 
-    if(date.isDefined && time.isDefined) {
-      Some(finalFormatter.parse(dateFormatter.format(date) + " " + time))
+    if(date.isDefined) {
+      if(time.isDefined) {
+        Some(date.get.withFields(time.get))
+      } else {
+        date
+      }
     } else {
       None
     }
   }
 
-  def getTime(date: Option[Date]): Option[String] = date.map({ d => Some(timeFormatter.format(d)) }).getOrElse(None)
+  def getTime(date: Option[DateTime]): Option[LocalTime] = date.map({ d => Some(d.toLocalTime) }).getOrElse(None)
 
   val addForm = Form(
     mapping(
@@ -37,17 +43,24 @@ object Change extends Controller with Secured {
       "summary"     -> nonEmptyText,
       "description" -> optional(text),
       "notes"       -> optional(ignored[String]("")),
-      "date_begun"  -> optional(ignored[Date](new Date())),
-      "time_scheduled" -> optional(text),
-      "date_closed" -> optional(ignored[Date](new Date())),
-      "date_completed" -> optional(ignored[Date](new Date())),
-      "date_created" -> ignored[Date](new Date()),
-      "date_scheduled" -> date,
-      "time_scheduled" -> nonEmptyText,
+      "date_begun"  -> optional(ignored[DateTime](new DateTime())),
+      "time_scheduled" -> optional(jodaTime),
+      "date_closed" -> optional(ignored[DateTime](new DateTime())),
+      "date_completed" -> optional(ignored[DateTime](new DateTime())),
+      "date_created" -> ignored[DateTime](new DateTime()),
+      "date_scheduled" -> jodaDate,
+      "time_scheduled" -> jodaTime,
       "success"      -> ignored[Boolean](false)
     )
-    ((id, user_id, owner_id, change_type_id, duration, risk, summary, description, notes, date_begun, time_begun, date_closed, date_completed, date_created, date_scheduled, time_scheduled, success) => models.Change(id, user_id, owner_id, change_type_id, duration, risk, summary, description, notes, deriveDate(date_begun, time_begun), date_closed, date_completed, date_created, finalFormatter.parse(dateFormatter.format(date_scheduled) + " " + time_scheduled), success))
-    ((change: models.Change) => Some((change.id, change.userId, change.ownerId, change.changeTypeId, change.duration, change.risk, change.summary, change.description, change.notes, change.dateBegun, getTime(change.dateBegun), change.dateClosed, change.dateCompleted, change.dateCreated, change.dateScheduled, timeFormatter.format(change.dateScheduled), change.success)))
+    ((id, user_id, owner_id, change_type_id, duration, risk, summary, description, notes, date_begun, time_begun, date_closed, date_completed, date_created, date_scheduled, time_scheduled, success) => models.Change(id, user_id, owner_id, change_type_id, duration, risk, summary, description, notes, deriveDate(date_begun, time_begun), date_closed, date_completed, date_created, deriveDate(Some(date_scheduled), Some(time_scheduled)).get, success))
+    ((change: models.Change) => Some((
+      change.id, change.userId, change.ownerId, change.changeTypeId,
+      change.duration, change.risk, change.summary, change.description,
+      change.notes, change.dateBegun, getTime(change.dateBegun),
+      change.dateClosed, change.dateCompleted, change.dateCreated,
+      change.dateScheduled, getTime(Some(change.dateScheduled)).get,
+      change.success)
+    ))
   )
 
   val editForm = Form(
@@ -61,14 +74,14 @@ object Change extends Controller with Secured {
       "summary"     -> nonEmptyText,
       "description" -> optional(text),
       "notes"       -> optional(ignored[String]("")),
-      "date_begun" -> optional(date),
-      "time_begun" -> optional(text),
-      "date_closed" -> optional(date),
-      "time_closed" -> optional(text),
-      "date_completed" -> optional(date),
-      "date_created" -> ignored[Date](new Date()),
-      "date_scheduled" -> date,
-      "time_scheduled" -> nonEmptyText,
+      "date_begun"  -> optional(jodaDate),
+      "time_begun"  -> optional(jodaTime),
+      "date_closed" -> optional(jodaDate),
+      "time_closed" -> optional(jodaTime),
+      "date_completed" -> optional(jodaDate),
+      "date_created" -> ignored[DateTime](new DateTime()),
+      "date_scheduled" -> jodaDate,
+      "time_scheduled" -> jodaTime,
       "success"      -> boolean
     )
     ((id, user_id, owner_id, change_type_id, duration, risk, summary, description, notes, date_begun, time_begun, date_closed, time_closed, date_completed, date_created, date_scheduled, time_scheduled, success) => {
@@ -90,7 +103,14 @@ object Change extends Controller with Secured {
         success = success
       )
     })
-    ((change: models.Change) => Some((change.id, change.userId, change.ownerId, change.changeTypeId, change.duration, change.risk, change.summary, change.description, change.notes, change.dateBegun, getTime(change.dateBegun), change.dateClosed, getTime(change.dateClosed), change.dateCompleted, change.dateCreated, change.dateScheduled, timeFormatter.format(change.dateScheduled), change.success)))
+    ((change: models.Change) => Some((
+      change.id, change.userId, change.ownerId, change.changeTypeId,
+      change.duration, change.risk, change.summary, change.description,
+      change.notes, change.dateBegun, getTime(change.dateBegun),
+      change.dateClosed, getTime(change.dateClosed), change.dateCompleted,
+      change.dateCreated, change.dateScheduled,
+      getTime(Some(change.dateScheduled)).get, change.success)
+    ))
   )
 
   def add = IsAuthenticated { implicit request =>

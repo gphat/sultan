@@ -2,7 +2,7 @@ package controllers.admin
 
 import anorm._
 import controllers._
-import java.util.Date
+import org.joda.time.DateTime
 import play.api._
 import play.api.data._
 import play.api.data.Forms._
@@ -17,7 +17,7 @@ object System extends Controller with Secured {
     mapping(
       "id"  -> ignored(NotAssigned:Pk[Long]),
       "name"-> nonEmptyText,
-      "date_created" -> ignored(new Date())
+      "date_created" -> ignored(new DateTime())
     )(models.System.apply)(models.System.unapply)
   )
 
@@ -25,7 +25,7 @@ object System extends Controller with Secured {
     mapping(
       "id"  -> ignored(NotAssigned:Pk[Long]),
       "name"-> nonEmptyText,
-      "date_created" -> ignored(new Date())
+      "date_created" -> ignored(new DateTime())
     )(models.System.apply)(models.System.unapply)
   )
 

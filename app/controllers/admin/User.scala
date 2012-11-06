@@ -2,8 +2,8 @@ package controllers.admin
 
 import anorm._
 import controllers._
-import java.util.Date
 import models.UserModel
+import org.joda.time.DateTime
 import org.mindrot.jbcrypt.BCrypt
 import play.api._
 import play.api.data._
@@ -21,7 +21,7 @@ object User extends Controller with Secured {
       "password" -> nonEmptyText,
       "realName" -> nonEmptyText,
       "email"    -> email,
-      "date_created" -> ignored(new Date())
+      "date_created" -> ignored(new DateTime())
     )(models.InitialUser.apply)(models.InitialUser.unapply)
   )
 

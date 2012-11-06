@@ -17,6 +17,7 @@ object ApplicationBuild extends Build {
       "javax.mail"    % "mail"                    % "1.4.1",
       "org.apache.commons" % "commons-email"      % "1.2",
       "org.pegdown"   % "pegdown"                 % "1.1.0"
+      "joda-time"     % "joda-time"               % "2.1"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA, settings = Defaults.defaultSettings ++ buildInfoSettings).settings(

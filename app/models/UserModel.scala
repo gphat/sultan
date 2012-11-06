@@ -2,20 +2,21 @@ package models
 
 import anorm._
 import anorm.SqlParser._
-import java.util.Date
+import org.joda.time.DateTime
 import org.mindrot.jbcrypt.BCrypt
 import play.api.db.DB
 import play.api.i18n.Messages
 import play.api.Play.current
 import sultan._
+import sultan.AnormExtension._
 
-case class User(id: Pk[Long] = NotAssigned, username: String, password: String, realName: String, email: String, dateCreated: Date) {
+case class User(id: Pk[Long] = NotAssigned, username: String, password: String, realName: String, email: String, dateCreated: DateTime) {
   def isAnonymous = username.equals("anonymous")
 }
 
 case class EditUser(username: String, realName: String, email: String)
 
-case class InitialUser(username: String, password: String, realName: String, email: String, dateCreated: Date)
+case class InitialUser(username: String, password: String, realName: String, email: String, dateCreated: DateTime)
 
 case class LoginUser(username: String, password: String)
 
@@ -41,7 +42,7 @@ object UserModel {
     get[String]("password") ~
     get[String]("realName") ~
     get[String]("email") ~
-    get[Date]("date_created") map {
+    get[DateTime]("date_created") map {
       case id~username~password~realName~email~dateCreated => User(id, username, password, realName, email, dateCreated)
     }
   }

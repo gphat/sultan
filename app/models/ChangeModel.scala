@@ -2,10 +2,11 @@ package models
 
 import anorm._
 import anorm.SqlParser._
-import java.util.Date
+import org.joda.time.DateTime
 import play.api.db.DB
 import play.api.Play.current
 import sultan._
+import sultan.AnormExtension._
 
 /**
  * Class for a Change
@@ -15,15 +16,15 @@ case class Change(
   changeTypeId: Long, duration: Long, risk: Int, summary: String,
   description: Option[String], notes: Option[String],
   // The date the change was begun
-  dateBegun: Option[Date],
+  dateBegun: Option[DateTime],
   // The date the change was closed/canceled
-  dateClosed: Option[Date],
+  dateClosed: Option[DateTime],
   // The date this change was completed
-  dateCompleted: Option[Date],
+  dateCompleted: Option[DateTime],
   // The date this change was created
-  dateCreated: Date,
+  dateCreated: DateTime,
   // The date on which this change is scheduled
-  dateScheduled: Date, success: Boolean
+  dateScheduled: DateTime, success: Boolean
 ) {
   def status = if(dateClosed.isDefined) {
       "CHANGE_STATUS_CANCELED"
@@ -70,14 +71,15 @@ case class FullChange(
   summary: String,
   description: Option[String], notes: Option[String],
   // The date the change was begun
-  dateBegun: Option[Date],
-  dateClosed: Option[Date],
+  dateBegun: Option[DateTime],
+  dateClosed: Option[DateTime],
   // The date this change was completed
-  dateCompleted: Option[Date],
+  dateCompleted: Option[DateTime],
   // The date this change was created
-  dateCreated: Date,
+  dateCreated: DateTime,
   // The date on which this change is scheduled
-  dateScheduled: Date, success: Boolean
+  dateScheduled: DateTime,
+  success: Boolean
 ) {
   def status = if(dateClosed.isDefined) {
       "CHANGE_STATUS_CANCELED"
@@ -144,11 +146,11 @@ object ChangeModel {
     get[String]("summary") ~
     get[Option[String]]("description") ~
     get[Option[String]]("notes") ~
-    get[Option[Date]]("date_begun") ~
-    get[Option[Date]]("date_closed") ~
-    get[Option[Date]]("date_completed") ~
-    get[Date]("date_created") ~
-    get[Date]("date_scheduled") ~
+    get[Option[DateTime]]("date_begun") ~
+    get[Option[DateTime]]("date_closed") ~
+    get[Option[DateTime]]("date_completed") ~
+    get[DateTime]("date_created") ~
+    get[DateTime]("date_scheduled") ~
     get[Boolean]("success") map {
       case id~userId~ownerId~changeTypeId~duration~risk~summary~description~notes~dateBegun~dateClosed~dateCompleted~dateCreated~dateScheduled~success => Change(
         id = id,

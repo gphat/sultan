@@ -2,10 +2,11 @@ package models
 
 import anorm._
 import anorm.SqlParser._
-import java.util.Date
+import org.joda.time.DateTime
 import play.api.db.DB
 import play.api.Play.current
 import sultan._
+import sultan.AnormExtension._
 
 /**
  * Class for a system.
@@ -13,7 +14,7 @@ import sultan._
 case class System(
   id: Pk[Long] = NotAssigned,
   name: String,
-  dateCreated: Date
+  dateCreated: DateTime
 )
 
 object SystemModel {
@@ -30,7 +31,7 @@ object SystemModel {
   val system = {
     get[Pk[Long]]("id") ~
     get[String]("name") ~
-    get[Date]("date_created") map {
+    get[DateTime]("date_created") map {
       case id~name~dateCreated => System(
         id = id, name = name, dateCreated = dateCreated
       )

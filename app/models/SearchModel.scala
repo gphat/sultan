@@ -1,8 +1,7 @@
 package models
 
 import com.traackr.scalastic.elasticsearch.Indexer
-import java.text.SimpleDateFormat
-import java.util.{Date,TimeZone}
+import org.joda.time.DateTime
 import play.api._
 import play.api.Play.current
 import play.api.libs.json.Json._
@@ -28,8 +27,6 @@ import scala.collection.JavaConversions._
 import sultan.JsonFormats._
 
 object SearchModel {
-
-  val dateFormatter = new SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
 
   val config = Play.configuration.getConfig("sultan")
   // Embedded ES

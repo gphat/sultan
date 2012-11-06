@@ -1,27 +1,23 @@
 package sultan
 
 import anorm.Id
-import java.text.SimpleDateFormat
-import java.util.Date
 import models._
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 import play.api.i18n.Messages
 import play.api.libs.json.Json._
 import play.api.libs.json._
 
 object JsonFormats {
 
-  val dateFormatter = new SimpleDateFormat("yyyyMMdd'T'HHmmss'Z'")
+  val dateFormatter = DateTimeFormat.forPattern("yyyyMMdd'T'HHmmss'Z'")
+  val dateFormatterUTC = DateTimeFormat.forPattern("yyyyMMdd'T'HHmmss'Z'").withZoneUTC()
 
   // XXX UNIT TESTS FOR THE LOVE OF GOD
-  private def optionDatetoJsValue(maybeDate: Option[Date]) = maybeDate.map({ d => JsString(dateFormatter.format(d)) }).getOrElse(JsNull)
   private def optionLongtoJsValue(maybeId: Option[Long]) = maybeId.map({ l => JsNumber(l) }).getOrElse(JsNull)
 
   private def optionI18nStringtoJsValue(maybeId: Option[String]) = maybeId.map({ s => JsString(Messages(s)) }).getOrElse(JsNull)
   private def optionStringtoJsValue(maybeId: Option[String]) = maybeId.map({ s => JsString(s) }).getOrElse(JsNull)
-
-  private def optionJsValueToDate(maybeDate: Option[String]) = maybeDate.map({ d =>
-    try { Some(dateFormatter.parse(d)) } catch { case _ => None }
-  }).getOrElse(None)
 
   // XXX UNIT TESTS FOR THE LOVE OF GOD
 
@@ -39,11 +35,11 @@ object JsonFormats {
       summary = (json \ "summary").as[String],
       description = (json \ "description").as[Option[String]],
       notes = (json \ "notes").as[Option[String]],
-      dateBegun = optionJsValueToDate((json \ "date_begun").as[Option[String]]),
-      dateClosed = optionJsValueToDate((json \ "date_closed").as[Option[String]]),
-      dateCompleted = optionJsValueToDate((json \ "date_completed").as[Option[String]]),
-      dateCreated = dateFormatter.parse((json \ "date_created").as[String]),
-      dateScheduled = dateFormatter.parse((json \ "date_scheduled").as[String]),
+      dateBegun = (json \ "date_begun").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
+      dateClosed = (json \ "date_closed").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
+      dateCompleted = (json \ "date_completed").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
+      dateCreated = dateFormatterUTC.parseDateTime((json \ "date_created").as[String]),
+      dateScheduled = dateFormatterUTC.parseDateTime((json \ "date_scheduled").as[String]),
       success = (json \ "success").as[Boolean]
     )
 
@@ -71,13 +67,13 @@ object JsonFormats {
         "summary"       -> JsString(obj.summary),
         "description"   -> optionStringtoJsValue(obj.description),
         "notes"         -> optionStringtoJsValue(obj.notes),
-        "date_begun"    -> optionDatetoJsValue(obj.dateBegun),
+        "date_begun"    -> obj.dateBegun.map({ d => JsString(dateFormatter.print(d)) }).getOrElse(JsNull),
         "begun"         -> JsBoolean(obj.dateBegun.isDefined),
-        "date_closed"   -> optionDatetoJsValue(obj.dateClosed),
-        "date_completed"-> optionDatetoJsValue(obj.dateCompleted),
+        "date_closed"   -> obj.dateClosed.map({ d => JsString(dateFormatter.print(d)) }).getOrElse(JsNull),
+        "date_completed"-> obj.dateCompleted.map({ d => JsString(dateFormatter.print(d)) }).getOrElse(JsNull),
         "completed"     -> JsBoolean(obj.dateCompleted.isDefined),
-        "date_created"  -> JsString(dateFormatter.format(obj.dateCreated)),
-        "date_scheduled"-> JsString(dateFormatter.format(obj.dateScheduled)),
+        "date_created"  -> JsString(dateFormatter.print(obj.dateCreated)),
+        "date_scheduled"-> JsString(dateFormatter.print(obj.dateScheduled)),
         "success"       -> JsBoolean(obj.success)
       )
       toJson(doc)
@@ -111,11 +107,11 @@ object JsonFormats {
       summary = (json \ "summary").as[String],
       description = (json \ "description").as[Option[String]],
       notes = (json \ "notes").as[Option[String]],
-      dateBegun = optionJsValueToDate((json \ "date_begun").as[Option[String]]),
-      dateClosed = optionJsValueToDate((json \ "date_closed").as[Option[String]]),
-      dateCompleted = optionJsValueToDate((json \ "date_completed").as[Option[String]]),
-      dateCreated = dateFormatter.parse((json \ "date_created").as[String]),
-      dateScheduled = dateFormatter.parse((json \ "date_scheduled").as[String]),
+      dateBegun = (json \ "date_begun").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
+      dateClosed = (json \ "date_closed").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
+      dateCompleted = (json \ "date_completed").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
+      dateCreated = dateFormatterUTC.parseDateTime((json \ "date_created").as[String]),
+      dateScheduled = dateFormatterUTC.parseDateTime((json \ "date_scheduled").as[String]),
       success = (json \ "success").as[Boolean]
     )
 

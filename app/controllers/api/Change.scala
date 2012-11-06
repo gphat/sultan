@@ -1,8 +1,8 @@
 package controllers.api
 
 import controllers._
-import java.util.Date
 import models.ChangeModel
+import org.joda.time.DateTime
 import play.api.libs.Jsonp
 import play.api.libs.json.Json
 import play.api.mvc._
@@ -18,7 +18,7 @@ object Change extends Controller with Secured {
     maybeChange match {
       case Some(change) => {
         ChangeModel.update(request.user.id.get, id, change.copy(
-          dateBegun = Some(new Date()))
+          dateBegun = Some(new DateTime()))
         ) // XXX Ultimately this should be overridable
         val json = Json.toJson(Map("ok" -> "ok"))
         callback match {
@@ -36,7 +36,7 @@ object Change extends Controller with Secured {
     maybeChange match {
       case Some(change) => {
         ChangeModel.update(request.user.id.get, id, change.copy(
-          dateClosed = Some(new Date()))
+          dateClosed = Some(new DateTime()))
         ) // XXX Ultimately this should be overridable
         val json = Json.toJson(Map("ok" -> "ok"))
         callback match {
@@ -54,7 +54,7 @@ object Change extends Controller with Secured {
     maybeChange match {
       case Some(change) => {
         ChangeModel.update(request.user.id.get, id, change.copy(
-          dateCompleted = Some(new Date()),
+          dateCompleted = Some(new DateTime()),
           success = false
         )) // XXX Ultimately this should be overridable
         val json = Json.toJson(Map("ok" -> "ok"))
@@ -109,7 +109,7 @@ object Change extends Controller with Secured {
     maybeChange match {
       case Some(change) => {
         ChangeModel.update(request.user.id.get, id, change.copy(
-          dateCompleted = Some(new Date()),
+          dateCompleted = Some(new DateTime()),
           success = true
         )) // XXX Ultimately this should be overridable
         val json = Json.toJson(Map("ok" -> "ok"))
