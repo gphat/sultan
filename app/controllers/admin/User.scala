@@ -3,7 +3,7 @@ package controllers.admin
 import anorm._
 import controllers._
 import models.UserModel
-import org.joda.time.DateTime
+import org.joda.time.{DateTime,DateTimeZone}
 import org.mindrot.jbcrypt.BCrypt
 import play.api._
 import play.api.data._
@@ -11,26 +11,33 @@ import play.api.data.Forms._
 import play.api.data.format.Formats._
 import play.api.libs.json.Json._
 import play.api.mvc._
+import play.api.Play.current
 import play.db._
 
 object User extends Controller with Secured {
 
   val newForm = Form(
     mapping(
+      "id"       -> ignored(NotAssigned:Pk[Long]),
       "username" -> nonEmptyText,
       "password" -> nonEmptyText,
       "realName" -> nonEmptyText,
       "email"    -> email,
-      "date_created" -> ignored(new DateTime())
-    )(models.InitialUser.apply)(models.InitialUser.unapply)
+      "timezone" -> nonEmptyText,
+      "date_created" -> ignored[DateTime](new DateTime())
+    )(models.User.apply)(models.User.unapply)
   )
 
   val editForm = Form(
     mapping(
+      "id"       -> ignored(NotAssigned:Pk[Long]),
       "username" -> nonEmptyText,
+      "password" -> ignored[String](""),
       "realName" -> nonEmptyText,
-      "email"    -> email
-    )(models.EditUser.apply)(models.EditUser.unapply)
+      "email"    -> email,
+      "timezone" -> nonEmptyText,
+      "date_created" -> ignored[DateTime](new DateTime())
+    )(models.User.apply)(models.User.unapply)
   )
 
   val passwordForm = Form(
@@ -54,7 +61,17 @@ object User extends Controller with Secured {
 
   def create = IsAuthenticated { implicit request =>
 
-    Ok(views.html.admin.user.create(newForm)(request))
+    val defaultUser = models.User(
+      id = Id(1.toLong),
+      username = "",
+      password = "",
+      realName = "",
+      timeZone = Play.configuration.getString("sultan.timezone").getOrElse(DateTimeZone.getDefault().getID),
+      email = "",
+      dateCreated = new DateTime()
+    )
+
+    Ok(views.html.admin.user.create(newForm.fill(defaultUser))(request))
   }
 
   def index(page: Int, count: Int) = IsAuthenticated { implicit request =>
@@ -67,11 +84,9 @@ object User extends Controller with Secured {
   def edit(userId: Long) = IsAuthenticated { implicit request =>
 
     val user = UserModel.getById(userId)
-
     user match {
       case Some(value) => {
-        val editUser = new models.EditUser(value.username, value.realName, value.email)
-        Ok(views.html.admin.user.edit(userId, editForm.fill(editUser), passwordForm)(request))
+        Ok(views.html.admin.user.edit(userId, editForm.fill(value), passwordForm)(request))
       }
       case None => NotFound
     }
@@ -93,7 +108,7 @@ object User extends Controller with Secured {
     editForm.bindFromRequest.fold(
       errors => BadRequest(views.html.admin.user.edit(userId, errors, passwordForm)),
       {
-        case user: models.EditUser =>
+        case user: models.User =>
         UserModel.update(userId, user)
         Redirect(routes.User.item(userId)).flashing("success" -> "admin.user.edit.success")
       }
@@ -108,8 +123,7 @@ object User extends Controller with Secured {
       case Some(value) => {
         passwordForm.bindFromRequest.fold(
           errors => {
-            val editUser = new models.EditUser(value.username, value.realName, value.email)
-            BadRequest(views.html.admin.user.edit(userId, editForm.fill(editUser), errors))
+            BadRequest(views.html.admin.user.edit(userId, editForm.fill(value), errors))
           }, {
             case np: models.NewPassword =>
             UserModel.updatePassword(userId, np)

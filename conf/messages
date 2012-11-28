@@ -99,7 +99,6 @@ general.password=Password
 general.upcoming=Upcoming
 general.username=Username
 
-
 pager.empty=No items.
 pager.next=Next
 pager.prev=Prev
@@ -121,6 +120,7 @@ user.email=Email
 user.password=Password
 user.password.confirm=Confirm Password
 user.realname=Real Name
+user.timezone=Time Zone
 user.username=Username
 user.with.id=User {0}
 

@@ -1,7 +1,8 @@
-@(id: Long, objForm: Form[(EditUser)], passForm: Form[(NewPassword)])(implicit request: AuthenticatedRequest)
+@(id: Long, objForm: Form[(User)], passForm: Form[(NewPassword)])(implicit request: AuthenticatedRequest)
 
 @import helper._
 @import helper.bootstrap._
+@import sultan.DateFormatter
 
 @main(Messages("admin.user.edit")) {
 <ul class="breadcrumb">
@@ -20,6 +21,7 @@
    <fieldset>
     @helper.inputText(objForm("username"), '_label -> Messages("user.username"))
     @helper.inputText(objForm("realName"), '_label -> Messages("user.realname"))
+    @helper.select(field = objForm("timezone"), options = DateFormatter.timeZoneList, '_label -> Messages("user.timezone"))
     @helper.input(objForm("email"), '_label -> Messages("user.email")) { (id, name, value, args) =>
         <input type="email" name="@name" value="@value" id="@id" @toHtmlArgs(args)>
     }

@@ -10,13 +10,17 @@ import play.api.Play.current
 import sultan._
 import sultan.AnormExtension._
 
-case class User(id: Pk[Long] = NotAssigned, username: String, password: String, realName: String, email: String, dateCreated: DateTime) {
+case class User(
+  id: Pk[Long] = NotAssigned,
+  username: String,
+  password: String,
+  realName: String,
+  email: String,
+  timeZone: String,
+  dateCreated: DateTime
+) {
   def isAnonymous = username.equals("anonymous")
 }
-
-case class EditUser(username: String, realName: String, email: String)
-
-case class InitialUser(username: String, password: String, realName: String, email: String, dateCreated: DateTime)
 
 case class LoginUser(username: String, password: String)
 
@@ -32,7 +36,7 @@ object UserModel {
   val listCountQuery = SQL("SELECT count(*) FROM users")
   val insertQuery = SQL("INSERT INTO users (username, password, realname, email, date_created) VALUES ({username}, {password}, {realname}, {email}, UTC_TIMESTAMP())")
   val startsWithQuery = SQL("SELECT * FROM users WHERE username COLLATE utf8_unicode_ci LIKE {username}")
-  val updateQuery = SQL("UPDATE users SET username={username}, realname={realname}, email={email} WHERE id={id}")
+  val updateQuery = SQL("UPDATE users SET username={username}, realname={realname}, timezone={timezone}, email={email} WHERE id={id}")
   val updatePassQuery = SQL("UPDATE users SET password={password} WHERE id={id}")
   val deleteQuery = SQL("DELETE FROM users WHERE id={id}")
 
@@ -42,22 +46,24 @@ object UserModel {
     get[String]("password") ~
     get[String]("realName") ~
     get[String]("email") ~
+    get[String]("timezone") ~
     get[DateTime]("date_created") map {
-      case id~username~password~realName~email~dateCreated => User(id, username, password, realName, email, dateCreated)
+      case id~username~password~realName~email~timeZone~dateCreated => User(id, username, password, realName, email, timeZone, dateCreated)
     }
   }
 
   /**
-   * Add a user.  Uses `InitialUser`.
+   * Add a user.
    */
-  def create(user: InitialUser): User = {
+  def create(user: User): User = {
 
     DB.withConnection { implicit conn =>
       val id = insertQuery.on(
         'username   -> user.username,
         'password   -> BCrypt.hashpw(user.password, BCrypt.gensalt(12)),
         'realname   -> user.realName,
-        'email      -> user.email
+        'email      -> user.email,
+        'timezone   -> user.timeZone
       ).executeInsert()
 
       this.getById(id.get).get
@@ -130,14 +136,15 @@ object UserModel {
       }
   }
 
-  def update(id: Long, user: EditUser): Option[User] = {
+  def update(id: Long, user: User): Option[User] = {
 
     DB.withConnection { implicit conn =>
       updateQuery.on(
         'id         -> id,
         'username   -> user.username,
         'realname   -> user.realName,
-        'email      -> user.email
+        'email      -> user.email,
+        'timezone   -> user.timeZone
       ).execute
       getById(id)
     }

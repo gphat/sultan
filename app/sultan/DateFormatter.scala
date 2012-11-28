@@ -14,6 +14,12 @@ object DateFormatter {
   val longDateTimeFormatter = DateTimeFormat.forPattern("h:mm aa z EEE, MMM d, yyyy")
   val isoFormatter = ISODateTimeFormat.dateTime()
 
+  val tzs = asScalaSet(DateTimeZone.getAvailableIDs).toSeq.sorted
+
+  def timeZoneList: Seq[(String, String)] = {
+    tzs.map({ id => (id, id) }).toSeq
+  }
+
   def displayLongDateTime(dt: Option[DateTime]): String = displayLongDateTime(dt.get)
 
   /**
