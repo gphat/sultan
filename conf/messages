@@ -85,6 +85,7 @@ change_type.name=Name
 change_type.with.id=Change Type {0}
 
 form.cancel=Cancel
+form.login=Login
 form.submit=Submit
 
 general.actions=Actions
@@ -94,7 +95,10 @@ general.completed=Completed
 general.edit=Edit
 general.home=Home
 general.in_progress=In Progress
+general.password=Password
 general.upcoming=Upcoming
+general.username=Username
+
 
 pager.empty=No items.
 pager.next=Next
