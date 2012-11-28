@@ -109,6 +109,7 @@ search.facet.filter.begun=Begun: {0}
 search.facet.filter.completed=Completed: {0}
 search.facet.filter.owner=Owner: {0}
 search.facet.filter.type=Type: {0}
+search.facet.begun=Begun
 search.facet.none=No facets.
 search.facet.owner=Owner
 search.facet.type=Change Type
