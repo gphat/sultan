@@ -82,7 +82,7 @@ trait Secured {
   def IsAuthenticated(f: AuthenticatedRequest => Result) = {
     Action { request =>
 
-      // First try a token
+      // First try a token XXXX
       val token = request.headers.get("Authorization")
       token match {
         case Some(v) => if(v.startsWith("Token token=")) {
