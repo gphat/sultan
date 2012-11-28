@@ -16,19 +16,17 @@
   @helper.inputText(field = createForm("time_scheduled"), args = 'class -> "timepicker", '_label -> Messages("change.time_scheduled"), 'append -> Html("<i class=\"icon-time\"></i>"))
   <div id="mycalendar"></div>
   <div class="form-actions">
-   <a href="@controllers.routes.Core.index()" class="btn"><i class="icon-remove"></i> @Messages("form.cancel") XXX</a>
-   <button id="save-add" type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>
+   <button data-bind="click: parseDuration" type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>
   </div>
  </fieldset>
- <script>
- YUI().use('event', 'calendar', function (Y) {
-  Y.one("#save-add").on('click', function(e) {
-    var durfield = Y.one("#duration");
-    durfield.set("value", juration.parse(durfield.get("value")));
-  })
- });
- $('.datepicker').datepicker({ format: "yyyy-mm-dd" });
- $('.timepicker').timePicker({ step: 15 });
- </script>
 }
+<script>
+$(function(){
+  var view = ChangeAddViewModel();
+  ko.applyBindings(view);
+  $('.datepicker').datepicker({ format: "yyyy-mm-dd" });
+  $('.timepicker').timePicker({ step: 15 });
+});
+</script>
+
 }
