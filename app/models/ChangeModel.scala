@@ -135,7 +135,7 @@ object ChangeModel {
   val updateQuery = SQL("UPDATE changes SET owner_id={owner_id}, change_type_id={change_type_id}, success={success}, duration={duration}, risk={risk}, summary={summary}, description={description}, notes={notes}, date_begun={date_begun}, date_closed={date_closed}, date_completed={date_completed}, date_scheduled={date_scheduled} WHERE id={id}")
   val deleteQuery = SQL("DELETE FROM changes WHERE id={id}")
 
-  // parser for retrieving a ticket
+  // parser for retrieving a change
   val change = {
     get[Pk[Long]]("id") ~
     get[Long]("user_id") ~
