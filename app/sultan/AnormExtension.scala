@@ -12,8 +12,8 @@ object AnormExtension {
     val MetaDataItem(qualified, nullable, clazz) = meta
     value match {
       case ts: java.sql.Timestamp => Right(new DateTime(ts.getTime).withZone(DateTimeZone.UTC))
-      case d: java.sql.Date => Right(new DateTime(d.getTime).withZoneRetainFields(DateTimeZone.UTC))
-      case str: java.lang.String => Right(dateFormatGeneration.parseDateTime(str))
+      case d: java.sql.Date => Right(new DateTime(d.getTime).withZone(DateTimeZone.UTC))
+      case str: java.lang.String => Right(dateFormatGeneration.parseDateTime(str).withZone(DateTimeZone.UTC))
       case _ => Left(TypeDoesNotMatch("Cannot convert " + value + ":" + value.asInstanceOf[AnyRef].getClass) )
     }
   }
