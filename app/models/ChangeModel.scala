@@ -2,7 +2,7 @@ package models
 
 import anorm._
 import anorm.SqlParser._
-import org.joda.time.DateTime
+import org.joda.time.{DateTime,DateTimeZone}
 import play.api.db.DB
 import play.api.Play.current
 import sultan._
@@ -177,24 +177,26 @@ object ChangeModel {
    */
   def create(userId: Long, change: Change): Option[Change] = {
 
-    DB.withConnection { implicit conn =>
+    UserModel.getById(userId).map({ user =>
 
-      val maybeId = insertQuery.on(
-        'user_id      -> userId,
-        'owner_id     -> change.ownerId,
-        'change_type_id -> change.changeTypeId,
-        'duration     -> change.duration,
-        'risk         -> change.risk,
-        'summary      -> change.summary,
-        'description  -> change.description,
-        'date_scheduled -> change.dateScheduled
-      ).executeInsert()
-      maybeId.map({ id =>
-        val c = this.getById(id)
-        SearchModel.indexChange(c.get)
-        c
-      }).getOrElse(None)
-    }
+      DB.withConnection { implicit conn =>
+
+        insertQuery.on(
+          'user_id      -> userId,
+          'owner_id     -> change.ownerId,
+          'change_type_id -> change.changeTypeId,
+          'duration     -> change.duration,
+          'risk         -> change.risk,
+          'summary      -> change.summary,
+          'description  -> change.description,
+          'date_scheduled -> change.dateScheduled.withZoneRetainFields(DateTimeZone.forID(user.timeZone))
+        ).executeInsert().map({ id =>
+          val c = this.getById(id)
+          SearchModel.indexChange(c.get)
+          c
+        }).getOrElse(None)
+      }
+    }).getOrElse(None)
   }
 
   /**
@@ -240,23 +242,26 @@ object ChangeModel {
 
   def update(userId: Long, id: Long, change: Change): Option[Change] = {
 
-    DB.withConnection { implicit conn =>
-      updateQuery.on(
-        'id             -> id,
-        'owner_id       -> change.ownerId,
-        'change_type_id -> change.changeTypeId,
-        'duration       -> change.duration,
-        'risk           -> change.risk,
-        'summary        -> change.summary,
-        'success        -> change.success,
-        'description    -> change.description,
-        'notes          -> change.notes,
-        'date_begun     -> change.dateBegun,
-        'date_closed    -> change.dateClosed,
-        'date_completed -> change.dateCompleted,
-        'date_scheduled -> change.dateScheduled
-      ).execute
-      getById(id)
-    }
+    UserModel.getById(userId).map({ user =>
+
+      DB.withConnection { implicit conn =>
+        updateQuery.on(
+          'id             -> id,
+          'owner_id       -> change.ownerId,
+          'change_type_id -> change.changeTypeId,
+          'duration       -> change.duration,
+          'risk           -> change.risk,
+          'summary        -> change.summary,
+          'success        -> change.success,
+          'description    -> change.description,
+          'notes          -> change.notes,
+          'date_begun     -> change.dateBegun.map({ date => date.withZoneRetainFields(DateTimeZone.forID(user.timeZone)) }).getOrElse(None),
+          'date_closed    -> change.dateClosed.map({ date => date.withZoneRetainFields(DateTimeZone.forID(user.timeZone)) }).getOrElse(None),
+          'date_completed -> change.dateCompleted.map({ date => date.withZoneRetainFields(DateTimeZone.forID(user.timeZone)) }).getOrElse(None),
+          'date_scheduled -> change.dateScheduled.withZoneRetainFields(DateTimeZone.forID(user.timeZone))
+        ).execute
+        getById(id)
+      }
+    }).getOrElse(None)
   }
 }

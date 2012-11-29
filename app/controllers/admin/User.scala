@@ -53,8 +53,11 @@ object User extends Controller with Secured {
     newForm.bindFromRequest.fold(
       errors => BadRequest(views.html.admin.user.create(errors)),
       value => {
-        val user = UserModel.create(value)
-        Redirect(routes.User.item(user.id.get)).flashing("success" -> "admin.user.add.success")
+        UserModel.create(value).map({ user =>
+          Redirect(routes.User.item(user.id.get)).flashing("success" -> "admin.user.add.success")
+        }).getOrElse(
+          Redirect(routes.User.index()).flashing("failure" -> "admin.user.add.failure")
+        )
       }
     )
   }

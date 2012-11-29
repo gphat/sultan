@@ -55,18 +55,18 @@ object UserModel {
   /**
    * Add a user.
    */
-  def create(user: User): User = {
+  def create(user: User): Option[User] = {
 
     DB.withConnection { implicit conn =>
-      val id = insertQuery.on(
+      insertQuery.on(
         'username   -> user.username,
         'password   -> BCrypt.hashpw(user.password, BCrypt.gensalt(12)),
         'realname   -> user.realName,
         'email      -> user.email,
         'timezone   -> user.timeZone
-      ).executeInsert()
-
-      this.getById(id.get).get
+      ).executeInsert().map({ id =>
+        this.getById(id)
+      }).getOrElse(None)
     }
   }
 
@@ -155,7 +155,7 @@ object UserModel {
     val hashedPass = BCrypt.hashpw(np.password, BCrypt.gensalt(12))
 
     DB.withConnection { implicit conn =>
-      val foo = updatePassQuery.on(
+      updatePassQuery.on(
         'id         -> id,
         'password   -> hashedPass
       ).executeUpdate

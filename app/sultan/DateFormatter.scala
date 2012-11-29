@@ -20,14 +20,16 @@ object DateFormatter {
     tzs.map({ id => (id, id) }).toSeq
   }
 
-  def displayLongDateTime(dt: Option[DateTime]): String = displayLongDateTime(dt.get)
+  def displayLongDateTime(dt: Option[DateTime], tz: String): String = dt.map({ actual =>
+    displayLongDateTime(actual, tz)
+  }).getOrElse("")
 
   /**
    * Formats a DateTime into a "long" string ("h:mm aa EEE, MMM d, yyyy") in
    * the user's Time Zone.
    */
-  def displayLongDateTime(dt: DateTime): String = {
-    longDateTimeFormatter.print(dt.withZone(DateTimeZone.forID("America/Los_Angeles")))
+  def displayLongDateTime(dt: DateTime, tz: String): String = {
+    longDateTimeFormatter.print(dt.withZone(DateTimeZone.forID(tz)))
   }
 
   /**
