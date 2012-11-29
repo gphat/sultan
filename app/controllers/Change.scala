@@ -3,7 +3,7 @@ package controllers
 import anorm._
 import java.text.SimpleDateFormat
 import models.{ChangeModel,ChangeTypeModel,SearchModel,UserModel}
-import org.joda.time.{DateTime,LocalTime}
+import org.joda.time.{DateTime,DateTimeZone,LocalTime}
 import org.joda.time.format.DateTimeFormat
 import play.api.data._
 import play.api.data.Forms._
@@ -139,27 +139,25 @@ object Change extends Controller with Secured {
 
   def edit(id: Long) = IsAuthenticated { implicit request =>
 
-    val maybeChange = ChangeModel.getById(id)
+    ChangeModel.getById(id).map({ change =>
+      val users = UserModel.getAll.map { u => (u.id.get.toString -> u.realName )}
+      val types = ChangeTypeModel.getAll.map { ct => (ct.id.get.toString -> Messages(ct.name) )}
 
-    maybeChange match {
-      case Some(change) => {
-        val users = UserModel.getAll.map { u => (u.id.get.toString -> u.realName )}
-        val types = ChangeTypeModel.getAll.map { ct => (ct.id.get.toString -> Messages(ct.name) )}
+      val localizedChange = change.copy(
+        dateBegun = change.dateBegun.map({ d => Some(d.withZone(DateTimeZone.forID(request.user.timeZone))) }).getOrElse(None),
+        dateCompleted = change.dateCompleted.map({ d => Some(d.withZone(DateTimeZone.forID(request.user.timeZone))) }).getOrElse(None),
+        dateScheduled = change.dateScheduled.withZone(DateTimeZone.forID(request.user.timeZone))
+      )
 
-        Ok(views.html.change.edit(id, editForm.fill(change), users, types))
-      }
-      case None => NotFound
-    }
+      Ok(views.html.change.edit(id, editForm.fill(localizedChange), users, types))
+    }).getOrElse(NotFound)
   }
 
   def item(id: Long) = IsAuthenticated { implicit request =>
 
-    val maybeChange = ChangeModel.getById(id)
-
-    maybeChange match {
-      case Some(change) => Ok(views.html.change.item(change)(request))
-      case None => NotFound
-    }
+    ChangeModel.getById(id).map({ change =>
+      Ok(views.html.change.item(change)(request))
+    }).getOrElse(NotFound)
   }
 
   def update(id: Long) = IsAuthenticated { implicit request =>
