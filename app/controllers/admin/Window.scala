@@ -22,7 +22,7 @@ object Window extends Controller with Secured {
     mapping(
       "id"  -> ignored(NotAssigned:Pk[Long]),
       "window_type_id"    -> longNumber,
-      "owner_id"    -> longNumber,
+      "owner_id"    -> ignored(1.toLong),
       "name"-> nonEmptyText,
       "description" -> optional(text),
       "date_begun"  -> jodaDate,
@@ -45,6 +45,7 @@ object Window extends Controller with Secured {
 
     addForm.bindFromRequest.fold(
       errors => {
+        println(errors)
         BadRequest(views.html.admin.window.create(errors, types))
       },
       value => {
@@ -72,8 +73,14 @@ object Window extends Controller with Secured {
   def edit(id: Long) = IsAuthenticated { implicit request =>
 
     WindowModel.getById(id).map({ window =>
+
+      val localizedWindow = window.copy(
+        dateBegun = window.dateBegun.withZone(DateTimeZone.forID(request.user.timeZone)),
+        dateEnded = window.dateEnded.withZone(DateTimeZone.forID(request.user.timeZone))
+      )
+
       val types = WindowTypeModel.getAll.map { wt => (wt.id.get.toString -> Messages(wt.name) )}
-      Ok(views.html.admin.window.edit(id, addForm.fill(window), types)(request))
+      Ok(views.html.admin.window.edit(id, addForm.fill(localizedWindow), types)(request))
     }).getOrElse(NotFound)
   }
 

@@ -36,10 +36,16 @@ admin.user.password.success=Password Saved
 admin.user.with.id=User {0}
 
 admin.window.add=Add Window
+admin.window.edit=Edit Window
+admin.window.edit.success=Window Updated
 admin.window.list=Windows
+admin.window.with.id=Window {0}
 
 admin.window_type.add=Add Window Type
+admin.window_type.edit=Edit Window Type
+admin.window_type.edit.success=Window Type Updated
 admin.window_type.list=Window Types
+admin.window_type.with_id=Window Type {0}
 
 app.footer.blurb=This is Sultan version {0}.
 
@@ -137,10 +143,12 @@ window.date_ended=Date End
 window.time_begun=Time Begun
 window.time_ended=Time Ended
 window.type=Type
+window.with.id=Window {0}
 
 window_type.name=Name
 window_type.color=Color
 window_type.threshold=Threshold
+window_type.with.id=Window Type {0}
 
 CHANGE_STATUS_CANCELED=Canceled
 CHANGE_STATUS_COMPLETED_FAIL=Completed Unsuccessfully

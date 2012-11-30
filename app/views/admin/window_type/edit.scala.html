@@ -17,6 +17,7 @@
 @helper.form(action = controllers.admin.routes.WindowType.update(id)) {
  <fieldset>
   @helper.inputText(objForm("name"), '_label -> Messages("window_type.name"))
+  @helper.inputText(objForm("threshold"), '_label -> Messages("window_type.threshold"))
   @helper.inputText(objForm("color"), '_label -> Messages("window_type.color"))
   <div class="form-actions">
    <a href="@controllers.admin.routes.WindowType.index()" class="btn">@Messages("form.cancel")</a>

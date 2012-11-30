@@ -31,7 +31,7 @@ object WindowModel {
   val getByIdQuery = SQL("SELECT * FROM windows WHERE id={id}")
   val listQuery = SQL("SELECT * FROM windows LIMIT {offset},{count}")
   val listCountQuery = SQL("SELECT count(*) FROM windows")
-  val insertQuery = SQL("INSERT INTO windows (owner_id, window_type_id, name, description, date_begun, date_ended, date_created) VALUES ({owner_id}, {window_type_id}, {name}, {description}, {summary}, {date_begun}, {date_ended}, UTC_TIMESTAMP())")
+  val insertQuery = SQL("INSERT INTO windows (owner_id, window_type_id, name, description, date_begun, date_ended, date_created) VALUES ({owner_id}, {window_type_id}, {name}, {description}, {date_begun}, {date_ended}, UTC_TIMESTAMP())")
   val updateQuery = SQL("UPDATE windows SET owner_id={owner_id}, window_type_id={window_type_id}, name={name}, description={description}, date_begun={date_begun}, date_ended={date_ended} WHERE id={id}")
   val deleteQuery = SQL("DELETE FROM windows WHERE id={id}")
 

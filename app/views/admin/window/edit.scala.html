@@ -9,17 +9,26 @@
   <a href="@routes.Admin.index">@Messages("general.admin")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
  </li>
  <li>
-  <a href="@controllers.admin.routes.System.index()">@Messages("admin.window.list")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
+  <a href="@controllers.admin.routes.Window.index()">@Messages("admin.window.list")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
  </li>
  <li class="active">@Messages("admin.window.with.id", objForm("name").value.get)</li>
 </ul>
 <h1>@Messages("admin.window.edit")</h1>
-@helper.form(action = controllers.admin.routes.System.update(id)) {
+@helper.form(action = controllers.admin.routes.Window.update(id)) {
  <fieldset>
   @helper.select(field = objForm("window_type_id"), options = types, args = '_label -> Messages("window.type"))
   @helper.inputText(objForm("name"), '_label -> Messages("window.name"))
+  @helper.inputText(objForm("description"), '_label -> Messages("window.description"))
+  <div style="clear: both">
+  @helper.inputText(field = objForm("date_begun"), args = 'controlClass -> "pull-left", 'class -> "datepicker", '_label -> Messages("window.date_begun"), 'append -> Html("<i class=\"icon-calendar\"></i>"))
+  @helper.inputText(field = objForm("time_begun"), args = 'class -> "timepicker", '_label -> Messages("window.time_begun"), 'append -> Html("<i class=\"icon-time\"></i>"))
+  </div>
+  <div style="clear: both">
+  @helper.inputText(field = objForm("date_ended"), args = 'controlClass -> "pull-left", 'class -> "datepicker", '_label -> Messages("window.date_ended"), 'append -> Html("<i class=\"icon-calendar\"></i>"))
+  @helper.inputText(field = objForm("time_ended"), args = 'class -> "timepicker", '_label -> Messages("window.time_ended"), 'append -> Html("<i class=\"icon-time\"></i>"))
+  </div>
   <div class="form-actions">
-   <a href="@controllers.admin.routes.System.index()" class="btn">@Messages("form.cancel")</a>
+   <a href="@controllers.admin.routes.Window.index()" class="btn">@Messages("form.cancel")</a>
    <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>
   </div>
  </fieldset>
