@@ -7,6 +7,8 @@ UPDATE users SET timezone='America/Los_Angeles';
 CREATE TABLE window_types (
   id INT UNSIGNED AUTO_INCREMENT NOT NULL,
   name VARCHAR(255) NOT NULL,
+  threshold INT NOT NULL,
+  color VARCHAR(6) NOT NULL,
   PRIMARY KEY(id)
 );
 
@@ -22,6 +24,8 @@ CREATE TABLE windows (
   PRIMARY KEY(id),
   FOREIGN KEY (window_type_id) REFERENCES window_types(id)
 );
+
+INSERT INTO window_types (name, threshold, color) VALUES ("WINDOW_TYPE_MORATORIUM", 0, "f2dede");
 
 # --- !Downs
 

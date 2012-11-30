@@ -1,4 +1,4 @@
-@(objForm: Form[(Window)])(implicit request: AuthenticatedRequest)
+@(objForm: Form[(Window)], types: List[(String,String)])(implicit request: AuthenticatedRequest)
 
 @import helper._
 @import helper.bootstrap._
@@ -16,11 +16,28 @@
 <h1>@Messages("admin.window.add")</h1>
 @helper.form(action = controllers.admin.routes.Window.add) {
  <fieldset>
+  @helper.select(field = objForm("window_type_id"), options = types, args = '_label -> Messages("window.type"))
   @helper.inputText(objForm("name"), '_label -> Messages("window.name"))
+  @helper.inputText(objForm("description"), '_label -> Messages("window.description"))
+  <div style="clear: both">
+  @helper.inputText(field = objForm("date_degun"), args = 'controlClass -> "pull-left", 'class -> "datepicker", '_label -> Messages("window.date_begun"), 'append -> Html("<i class=\"icon-calendar\"></i>"))
+  @helper.inputText(field = objForm("time_begun"), args = 'class -> "timepicker", '_label -> Messages("window.time_begun"), 'append -> Html("<i class=\"icon-time\"></i>"))
+  </div>
+  <div style="clear: both">
+  @helper.inputText(field = objForm("date_ended"), args = 'controlClass -> "pull-left", 'class -> "datepicker", '_label -> Messages("window.date_ended"), 'append -> Html("<i class=\"icon-calendar\"></i>"))
+  @helper.inputText(field = objForm("time_ended"), args = 'class -> "timepicker", '_label -> Messages("window.time_ended"), 'append -> Html("<i class=\"icon-time\"></i>"))
+  </div>
   <div class="form-actions">
    <a href="@routes.Admin.index" class="btn"><i class="icon-remove"></i> @Messages("form.cancel")</a>
    <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>
   </div>
  </fieldset>
 }
+
+<script>
+$(function(){
+  $('.datepicker').datepicker({ format: "yyyy-mm-dd" });
+  $('.timepicker').timePicker({ step: 15 });
+});
+</script>
 }

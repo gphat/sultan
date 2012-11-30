@@ -130,6 +130,18 @@ user.timezone=Time Zone
 user.username=Username
 user.with.id=User {0}
 
+window.name=Name
+window.description=Description
+window.date_begun=Date Begun
+window.date_ended=Date End
+window.time_begun=Time Begun
+window.time_ended=Time Ended
+window.type=Type
+
+window_type.name=Name
+window_type.color=Color
+window_type.threshold=Threshold
+
 CHANGE_STATUS_CANCELED=Canceled
 CHANGE_STATUS_COMPLETED_FAIL=Completed Unsuccessfully
 CHANGE_STATUS_COMPLETED_SUCCESS=Completed Successfully
@@ -139,3 +151,5 @@ CHANGE_STATUS_PENDING=Pending
 CHANGE_TYPE_DEGRADED=Service Degradation
 CHANGE_TYPE_OUTAGE=Service Outage
 CHANGE_TYPE_CODE_RELEASE=Code Release
+
+WINDOW_TYPE_MORATORIUM=Moratorium

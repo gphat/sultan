@@ -1,0 +1,28 @@
+@(objForm: Form[(WindowType)])(implicit request: AuthenticatedRequest)
+
+@import helper._
+@import helper.bootstrap._
+
+@main(Messages("admin.window_type.add")) {
+<ul class="breadcrumb">
+ <li>
+  <a href="@routes.Admin.index">@Messages("general.admin")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
+ </li>
+ <li>
+  <a href="@controllers.admin.routes.WindowType.index()">@Messages("admin.window_type.list")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
+ </li>
+ <li class="active">@Messages("admin.window_type.add")</li>
+</ul>
+<h1>@Messages("admin.window_type.add")</h1>
+@helper.form(action = controllers.admin.routes.WindowType.add) {
+ <fieldset>
+  @helper.inputText(objForm("name"), '_label -> Messages("window_type.name"))
+  @helper.inputText(objForm("threshold"), '_label -> Messages("window_type.threshold"))
+  @helper.inputText(objForm("color"), '_label -> Messages("window_type.color"))
+  <div class="form-actions">
+   <a href="@routes.Admin.index" class="btn"><i class="icon-remove"></i> @Messages("form.cancel")</a>
+   <button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> @Messages("form.submit")</button>
+  </div>
+ </fieldset>
+}
+}

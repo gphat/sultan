@@ -1,0 +1,24 @@
+@(wtype: models.WindowType)(implicit request: AuthenticatedRequest)
+@main(Messages("admin.window_type.with.id", wtype.name)) {
+<ul class="breadcrumb">
+ <li>
+  <a href="@routes.Admin.index">@Messages("general.admin")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
+ </li>
+ <li>
+  <a href="@controllers.admin.routes.WindowType.index()">@Messages("admin.window_type.list")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
+ </li>
+ <li class="active">@Messages(wtype.name)</li>
+</ul>
+<h1><a class="btn" href="@controllers.admin.routes.WindowType.edit(wtype.id.get)"><i class="icon-edit"></i></a> @Messages("window_type.with.id", Messages(wtype.name))</h1>
+<div class="well well-small obj-info">
+ <div class="row">
+  <div class="span4">
+   <div class="info">
+    <label>@Messages("window_type.name")</label><span>@Messages(wtype.name)</span>
+    <label>@Messages("window_type.threshold")</label><span>@wtype.threshold</span>
+    <label>@Messages("window_type.color")</label><span style="background-color: #@wtype.color; padding: 5px; border: 1px solid rgba(0,0,0,.15); border-radius: 5px;">@Messages(wtype.color)</span>
+   </div>
+  </div>
+ </div>
+</div>
+}

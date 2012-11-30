@@ -37,6 +37,13 @@ POST    /admin/window/:id               controllers.admin.Window.update(id: Long
 GET     /admin/window/edit/:id          controllers.admin.Window.edit(id: Long)
 POST    /admin/window                   controllers.admin.Window.add
 
+GET     /admin/window_type              controllers.admin.WindowType.index(page: Int ?= 1, count: Int ?= 10)
+GET     /admin/window_type/create       controllers.admin.WindowType.create
+GET     /admin/window_type/:id          controllers.admin.WindowType.item(id: Long)
+POST    /admin/window_type/:id          controllers.admin.WindowType.update(id: Long)
+GET     /admin/window_type/edit/:id     controllers.admin.WindowType.edit(id: Long)
+POST    /admin/window_type              controllers.admin.WindowType.add
+
 GET     /api/change/:id                 controllers.api.Change.item(id: Long, callback: Option[String] ?= None)
 POST    /api/change/begin/:id           controllers.api.Change.begin(id: Long, callback: Option[String] ?= None)
 POST    /api/change/close/:id           controllers.api.Change.close(id: Long, callback: Option[String] ?= None)
