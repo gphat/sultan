@@ -1,0 +1,45 @@
+@(page: sultan.Page[models.Window])(implicit request: AuthenticatedRequest)
+
+@import views.html.util._
+
+@main(Messages("admin.window.list")) {
+<ul class="breadcrumb">
+ <li>
+  <a href="@routes.Admin.index">@Messages("general.admin")</a> <span class="divider">@Messages("breadcrumb.divider")</span>
+ </li>
+ <li class="active">@Messages("admin.window.list")</li>
+</ul>
+<div class="btn-group btn-group-above-table pull-right">
+ <a href="@controllers.admin.routes.Window.create" class="btn"><i class="icon-plus"></i> @Messages("admin.window.add")</a>
+</div>
+<h1>@Messages("admin.window.list")</h1>
+@Option(page.items).filterNot(_.isEmpty).map { windows =>
+<table class="table table-bordered table-rounded atable-striped">
+ <thead>
+  <th>@Messages("window.name")</th>
+  <th>@Messages("general.actions")</th>
+ </thead>
+ <tbody>
+  @windows.map { window =>
+  <tr>
+   <td><a href="@controllers.admin.routes.Window.item(window.id.get)">@window.name</a></td>
+   <td class="actions" style="width: 10%">
+    <div class="btn-toolbar">
+     <div class="btn-group">
+      <a class="btn btn-mini" href="@controllers.admin.routes.Window.edit(window.id.get)"><i class="icon-edit"></i> @Messages("general.edit")</a>
+     </div>
+    </div>
+   </td>
+  </tr>
+  }
+ </tbody>
+ <tfoot>
+  <tr>
+   <td colspan="4">
+     @pager(page)
+    </td>
+   </tr>
+ </tfoot>
+</table>
+}
+}

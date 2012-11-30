@@ -35,6 +35,12 @@ admin.user.password.match=Passwords must match
 admin.user.password.success=Password Saved
 admin.user.with.id=User {0}
 
+admin.window.add=Add Window
+admin.window.list=Windows
+
+admin.window_type.add=Add Window Type
+admin.window_type.list=Window Types
+
 app.footer.blurb=This is Sultan version {0}.
 
 auth.login=Login
