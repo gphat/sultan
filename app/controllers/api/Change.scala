@@ -13,112 +13,80 @@ object Change extends Controller with Secured {
   // XXX Ensure UTC
 
   def begin(id: Long, callback: Option[String]) = IsAuthenticated { implicit request =>
-    def maybeChange = ChangeModel.getById(id)
 
-    maybeChange match {
-      case Some(change) => {
-        ChangeModel.update(request.user.id.get, id, change.copy(
-          dateBegun = Some(new DateTime()))
-        ) // XXX Ultimately this should be overridable
-        val json = Json.toJson(Map("ok" -> "ok"))
-        callback match {
-          case Some(c) => Ok(Jsonp(c, json))
-          case None => Ok(json)
-        }
-      }
-      case None => NotFound
-    }
+    ChangeModel.getById(id).map({ change =>
+      ChangeModel.update(request.user.id.get, id, change.copy(
+        dateBegun = Some(new DateTime()) // XXX Ultimately this should be overridable
+      )).map({ newchange =>
+        val json = Json.toJson(newchange)
+        val res: Result = callback.map({ c => Ok(Jsonp(c, json)) }).getOrElse(Ok(json))
+        res
+      }).getOrElse(BadRequest)
+    }).getOrElse(NotFound)
   }
 
   def close(id: Long, callback: Option[String]) = IsAuthenticated { implicit request =>
-    def maybeChange = ChangeModel.getById(id)
 
-    maybeChange match {
-      case Some(change) => {
-        ChangeModel.update(request.user.id.get, id, change.copy(
-          dateClosed = Some(new DateTime()))
-        ) // XXX Ultimately this should be overridable
-        val json = Json.toJson(Map("ok" -> "ok"))
-        callback match {
-          case Some(c) => Ok(Jsonp(c, json))
-          case None => Ok(json)
-        }
-      }
-      case None => NotFound
-    }
+    ChangeModel.getById(id).map({ change =>
+      ChangeModel.update(request.user.id.get, id, change.copy(
+        dateClosed = Some(new DateTime()) // XXX Ultimately this should be overridable
+      )).map({ newchange =>
+        val json = Json.toJson(newchange)
+        val res: Result = callback.map({ c => Ok(Jsonp(c, json)) }).getOrElse(Ok(json))
+        res
+      }).getOrElse(BadRequest)
+    }).getOrElse(NotFound)
   }
 
   def fail(id: Long, callback: Option[String]) = IsAuthenticated { implicit request =>
-    def maybeChange = ChangeModel.getById(id)
 
-    maybeChange match {
-      case Some(change) => {
-        ChangeModel.update(request.user.id.get, id, change.copy(
-          dateCompleted = Some(new DateTime()),
-          success = false
-        )) // XXX Ultimately this should be overridable
-        val json = Json.toJson(Map("ok" -> "ok"))
-        callback match {
-          case Some(c) => Ok(Jsonp(c, json))
-          case None => Ok(json)
-        }
-      }
-      case None => NotFound
-    }
+    ChangeModel.getById(id).map({ change =>
+      ChangeModel.update(request.user.id.get, id, change.copy(
+        dateCompleted = Some(new DateTime()), // XXX Ultimately this should be overridable
+        success = false
+      )).map({ newchange =>
+        val json = Json.toJson(newchange)
+        val res: Result = callback.map({ c => Ok(Jsonp(c, json)) }).getOrElse(Ok(json))
+        res
+      }).getOrElse(BadRequest)
+    }).getOrElse(NotFound)
   }
 
   def item(id: Long, callback: Option[String]) = IsAuthenticated { implicit request =>
 
-    def maybeChange = ChangeModel.getById(id)
-
-    maybeChange match {
-      case Some(change) => {
-        val json = Json.toJson(change)
-        callback match {
-          case Some(c) => Ok(Jsonp(c, json))
-          case None => Ok(json)
-        }
-      }
-      case None => NotFound
-    }
+    ChangeModel.getById(id).map({ change =>
+      val json = Json.toJson(change)
+      val res: Result = callback.map({ c => Ok(Jsonp(c, json)) }).getOrElse(Ok(json))
+      res
+    }).getOrElse(NotFound)
   }
 
   def reset(id: Long, callback: Option[String]) = IsAuthenticated { implicit request =>
-    def maybeChange = ChangeModel.getById(id)
 
-    maybeChange match {
-      case Some(change) => {
-        ChangeModel.update(request.user.id.get, id, change.copy(
-          dateBegun = None,
-          dateClosed = None,
-          dateCompleted = None
-        )) // XXX Ultimately this should be overridable
-        val json = Json.toJson(Map("ok" -> "ok"))
-        callback match {
-          case Some(c) => Ok(Jsonp(c, json))
-          case None => Ok(json)
-        }
-      }
-      case None => NotFound
-    }
+    ChangeModel.getById(id).map({ change =>
+      ChangeModel.update(request.user.id.get, id, change.copy(
+        dateBegun = None,
+        dateClosed = None,
+        dateCompleted = None
+      )).map({ newchange =>
+        val json = Json.toJson(newchange)
+        val res: Result = callback.map({ c => Ok(Jsonp(c, json)) }).getOrElse(Ok(json))
+        res
+      }).getOrElse(BadRequest)
+    }).getOrElse(NotFound)
   }
 
   def success(id: Long, callback: Option[String]) = IsAuthenticated { implicit request =>
-    def maybeChange = ChangeModel.getById(id)
 
-    maybeChange match {
-      case Some(change) => {
-        ChangeModel.update(request.user.id.get, id, change.copy(
-          dateCompleted = Some(new DateTime()),
-          success = true
-        )) // XXX Ultimately this should be overridable
-        val json = Json.toJson(Map("ok" -> "ok"))
-        callback match {
-          case Some(c) => Ok(Jsonp(c, json))
-          case None => Ok(json)
-        }
-      }
-      case None => NotFound
-    }
+    ChangeModel.getById(id).map({ change =>
+      ChangeModel.update(request.user.id.get, id, change.copy(
+        dateCompleted = Some(new DateTime()), // XXX Ultimately this should be overridable
+        success = true
+      )).map({ newchange =>
+        val json = Json.toJson(newchange)
+        val res: Result = callback.map({ c => Ok(Jsonp(c, json)) }).getOrElse(Ok(json))
+        res
+      }).getOrElse(BadRequest)
+    }).getOrElse(NotFound)
   }
 }
