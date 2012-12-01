@@ -27,19 +27,19 @@ object JsonFormats {
   implicit object ChangeFormat extends Format[Change] {
     def reads(json: JsValue): Change = Change(
       id = Id((json \ "id").as[Long]),
-      userId = (json \ "user_id").as[Long],
-      ownerId = (json \ "owner_id").as[Long],
-      changeTypeId = (json \ "change_type_id").as[Long],
+      userId = (json \ "userId").as[Long],
+      ownerId = (json \ "ownerId").as[Long],
+      changeTypeId = (json \ "changeTypeId").as[Long],
       duration = (json \ "duration").as[Long],
       risk = (json \ "risk").as[Int],
       summary = (json \ "summary").as[String],
       description = (json \ "description").as[Option[String]],
       notes = (json \ "notes").as[Option[String]],
-      dateBegun = (json \ "date_begun").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
-      dateClosed = (json \ "date_closed").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
-      dateCompleted = (json \ "date_completed").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
-      dateCreated = dateFormatterUTC.parseDateTime((json \ "date_created").as[String]),
-      dateScheduled = dateFormatterUTC.parseDateTime((json \ "date_scheduled").as[String]),
+      dateBegun = (json \ "dateBegun").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
+      dateClosed = (json \ "dateClosed").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
+      dateCompleted = (json \ "dateCompleted").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
+      dateCreated = dateFormatterUTC.parseDateTime((json \ "dateCreated").as[String]),
+      dateScheduled = dateFormatterUTC.parseDateTime((json \ "dateScheduled").as[String]),
       success = (json \ "success").as[Boolean]
     )
 
@@ -88,31 +88,31 @@ object JsonFormats {
     def reads(json: JsValue): FullChange = FullChange(
       id = Id((json \ "id").as[Long]),
       user = NamedThing(
-        id    = (json \ "user_id").as[Long],
-        name  = (json \ "user_realname").as[String],
-        i18nName = (json \ "user_realname").as[String]
+        id    = (json \ "userId").as[Long],
+        name  = (json \ "userRealName").as[String],
+        i18nName = (json \ "userRealName").as[String]
       ),
       owner = NamedThing(
-        id = (json \ "owner_id").as[Long],
-        name = (json \ "owner_realname").as[String],
-        i18nName = (json \ "owner_realname").as[String]
+        id = (json \ "ownerId").as[Long],
+        name = (json \ "ownerRealName").as[String],
+        i18nName = (json \ "ownerRealName").as[String]
       ),
       changeType = ColoredThing(
-        id = (json \ "change_type_id").as[Long],
-        name = (json \ "change_type_name").as[String],
-        i18nName = (json \ "change_type_name_i18n").as[String],
-        color = (json \ "change_type_color").as[String]
+        id = (json \ "changeTypeId").as[Long],
+        name = (json \ "changeTypeName").as[String],
+        i18nName = (json \ "changeTypeNameI18N").as[String],
+        color = (json \ "changeTypeColor").as[String]
       ),
       duration = (json \ "duration").as[Long],
       risk = (json \ "risk").as[Int],
       summary = (json \ "summary").as[String],
       description = (json \ "description").as[Option[String]],
       notes = (json \ "notes").as[Option[String]],
-      dateBegun = (json \ "date_begun").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
-      dateClosed = (json \ "date_closed").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
-      dateCompleted = (json \ "date_completed").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
-      dateCreated = dateFormatterUTC.parseDateTime((json \ "date_created").as[String]),
-      dateScheduled = dateFormatterUTC.parseDateTime((json \ "date_scheduled").as[String]),
+      dateBegun = (json \ "dateBegun").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
+      dateClosed = (json \ "dateClosed").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
+      dateCompleted = (json \ "dateCompleted").as[Option[String]].map({ d => Some(dateFormatterUTC.parseDateTime(d)) }).getOrElse(None),
+      dateCreated = dateFormatterUTC.parseDateTime((json \ "dateCreated").as[String]),
+      dateScheduled = dateFormatterUTC.parseDateTime((json \ "dateScheduled").as[String]),
       success = (json \ "success").as[Boolean]
     )
 

@@ -43,58 +43,58 @@ object SearchModel {
   val changeIndex = "changes"
   val changeType = "change"
   val changeFilterMap = Map(
-    "type"        -> "change_type_name",
-    "owner"       -> "owner_realname",
+    "type"        -> "changeTypeName",
+    "owner"       -> "ownerRealName",
     "completed"   -> "completed",
-    "begun"       -> "begun"
+    "status"      -> "statusName"
   )
   val changeSortMap = Map(
-    "date_created"    -> "date_created",
-    "date_scheduled"  -> "date_scheduled",
+    "date_created"    -> "dateCreated",
+    "date_scheduled"  -> "dateScheduled",
     "duration"        -> "duration",
     "id"              -> "id",
-    "owner"           -> "owner_realname",
+    "owner"           -> "ownerRealName",
     "risk"            -> "risk",
-    "type"            -> "change_type_name"
+    "type"            -> "changeTypeName"
   )
   // XXX booleans for begun, etc
   val changeMapping = """
   {
     "change": {
       "properties": {
-        "user_id": {
+        "userId": {
           "type": "long",
           "index": "not_analyzed"
         },
-        "user_realname": {
+        "userRealName": {
           "type": "string",
           "index": "not_analyzed"
         },
-        "owner_id": {
+        "ownerId": {
           "type": "long",
           "index": "not_analyzed"
         },
-        "owner_realname": {
+        "ownerRealName": {
           "type": "string",
           "index": "not_analyzed"
         },
-        "change_type_id": {
+        "changeTypeId": {
           "type": "long",
           "index": "not_analyzed"
         },
-        "change_type_name": {
+        "changeTypeName": {
           "type": "string",
           "index": "not_analyzed"
         },
-        "change_type_color": {
+        "changeTypeColor": {
           "type": "string",
           "index": "not_analyzed"
         },
-        "status_name": {
+        "statusName": {
           "type": "string",
           "index": "not_analyzed"
         },
-        "status_color": {
+        "statusColor": {
           "type": "string",
           "index": "not_analyzed"
         },
@@ -122,7 +122,7 @@ object SearchModel {
           "type": "boolean",
           "index": "not_analyzed"
         },
-        "date_begun": {
+        "dateBegun": {
           "type": "date",
           "format": "basic_date_time_no_millis"
         },
@@ -130,15 +130,15 @@ object SearchModel {
           "type": "boolean",
           "index": "not_analyzed"
         },
-        "date_closed": {
+        "dateClosed": {
           "type": "date",
           "format": "basic_date_time_no_millis"
         },
-        "date_completed": {
+        "dateCompleted": {
           "type": "date",
           "format": "basic_date_time_no_millis"
         },
-        "date_created": {
+        "dateCreated": {
           "type": "date",
           "format": "basic_date_time_no_millis"
         },
@@ -152,9 +152,9 @@ object SearchModel {
   """
 
   val changeFacets = Map(
-    "begun"   -> "begun",
-    "type"    -> "change_type_name",
-    "owner"   -> "owner_realname"
+    "status"   -> "statusName",
+    "type"    -> "changeTypeName",
+    "owner"   -> "ownerRealName"
   )
 
   /**
@@ -204,6 +204,7 @@ object SearchModel {
     val hits = res.hits.map { hit => Json.fromJson[FullChange](Json.parse(hit.sourceAsString())) }
 
     val pager = Page(hits, query.page, query.count, res.hits.totalHits)
+    println(res)
     Search.parseSearchResponse(pager = pager, response = res)
   }
 

@@ -44,8 +44,3 @@ function ChangeEditViewModel() {
 
   self.parseDuration = durationParser;
 }
-
-function ChangeListViewModel() {
-  var self = this;
-  self.links = ko.observableArray([]);
-}
