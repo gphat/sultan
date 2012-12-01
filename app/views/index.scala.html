@@ -2,6 +2,7 @@
 
 @import sultan.Library
 @import views.html.util._
+@import sultan.DateFormatter
 
 @main(Messages("general.change.management")) {
 <div class="row-fluid">
@@ -42,7 +43,7 @@
      <td><span class="label" style="background-color: #@change.color"><i class="@change.icon"></i> @Messages(change.status)</span></td>
      <td><a href="@routes.Change.item(change.id.get)">@change.summary</a></td>
      <td>@change.owner.name</td>
-     <td>@change.dateScheduled</td>
+     <td>@DateFormatter.displayLongDateTime(change.dateScheduled, request.user.timeZone)</td>
      <td>@change.risk</td>
      <td>@change.duration</td>
     </tr>
