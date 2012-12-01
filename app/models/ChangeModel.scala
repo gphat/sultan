@@ -255,9 +255,9 @@ object ChangeModel {
           'success        -> change.success,
           'description    -> change.description,
           'notes          -> change.notes,
-          'date_begun     -> change.dateBegun.map({ date => date.withZoneRetainFields(DateTimeZone.forID(user.timeZone)) }).getOrElse(None),
-          'date_closed    -> change.dateClosed.map({ date => date.withZoneRetainFields(DateTimeZone.forID(user.timeZone)) }).getOrElse(None),
-          'date_completed -> change.dateCompleted.map({ date => date.withZoneRetainFields(DateTimeZone.forID(user.timeZone)) }).getOrElse(None),
+          'date_begun     -> change.dateBegun.map({ date => date.withZoneRetainFields(DateTimeZone.forID(user.timeZone)) }).getOrElse(null),
+          'date_closed    -> change.dateClosed.map({ date => date.withZoneRetainFields(DateTimeZone.forID(user.timeZone)) }).getOrElse(null),
+          'date_completed -> change.dateCompleted.map({ date => date.withZoneRetainFields(DateTimeZone.forID(user.timeZone)) }).getOrElse(null),
           'date_scheduled -> change.dateScheduled.withZoneRetainFields(DateTimeZone.forID(user.timeZone))
         ).execute
         getById(id)
