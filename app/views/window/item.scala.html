@@ -1,0 +1,18 @@
+@(window: models.Window, windowType: models.WindowType)(implicit request: AuthenticatedRequest)
+
+@import sultan.{DateFormatter,TextRenderer}
+
+@main(Messages("admin.window.with.id", window.name)) {
+<h1><a class="btn" href="@controllers.admin.routes.Window.edit(window.id.get)"><i class="icon-edit"></i></a> @Messages("window.with.id", window.name)</h1>
+<div class="well well-small obj-info">
+ <div class="row">
+  <div class="span4">
+   <div class="info"><label>@Messages("window.name")</label><span>@window.name</span></div>
+   <div class="info"><label>@Messages("window.type")</label><span class="label" style="background-color: #@windowType.color">@Messages(windowType.name)</span></div>
+   <div class="info"><label>@Messages("window.description")</label><span>@Html(TextRenderer.render(window.description))</span></div>
+   <div class="info"><label>@Messages("window.date_begun")</label><span>@DateFormatter.displayLongDateTime(window.dateBegun, request.user.timeZone)</span></div>
+   <div class="info"><label>@Messages("window.date_ended")</label><span>@DateFormatter.displayLongDateTime(window.dateEnded, request.user.timeZone)</span></div>
+  </div>
+ </div>
+</div>
+}

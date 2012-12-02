@@ -32,7 +32,6 @@ POST    /admin/system                   controllers.admin.System.add
 
 GET     /admin/window                   controllers.admin.Window.index(page: Int ?= 1, count: Int ?= 10)
 GET     /admin/window/create            controllers.admin.Window.create
-GET     /admin/window/:id               controllers.admin.Window.item(id: Long)
 POST    /admin/window/:id               controllers.admin.Window.update(id: Long)
 GET     /admin/window/edit/:id          controllers.admin.Window.edit(id: Long)
 POST    /admin/window                   controllers.admin.Window.add
@@ -64,3 +63,5 @@ POST    /change                         controllers.Change.add
 GET     /change/edit/:id                controllers.Change.edit(id: Long)
 GET     /change/:id                     controllers.Change.item(id: Long)
 POST    /change/:id                     controllers.Change.update(id: Long)
+
+GET     /window/:id                     controllers.Window.item(id: Long)

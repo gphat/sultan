@@ -50,7 +50,7 @@ object Window extends Controller with Secured {
       },
       value => {
         WindowModel.create(request.user.id.get, value).map({ window =>
-          Redirect(controllers.admin.routes.Window.item(window.id.get)).flashing("success" -> "admin.window.add.success")
+          Redirect(controllers.routes.Window.item(window.id.get)).flashing("success" -> "admin.window.add.success")
         }).getOrElse(BadRequest(views.html.admin.window.create(addForm.fill(value), types)))
       }
     )
@@ -84,13 +84,6 @@ object Window extends Controller with Secured {
     }).getOrElse(NotFound)
   }
 
-  def item(id: Long) = IsAuthenticated { implicit request =>
-
-    WindowModel.getById(id).map({ window =>
-      Ok(views.html.admin.window.item(window)(request))
-    }).getOrElse(NotFound)
-  }
-
   def update(id: Long) = IsAuthenticated { implicit request =>
 
     addForm.bindFromRequest.fold(
@@ -100,7 +93,7 @@ object Window extends Controller with Secured {
       },
       value => {
         WindowModel.update(request.user.id.get, id, value)
-        Redirect(routes.Window.item(id)).flashing("success" -> "admin.window.edit.success")
+        Redirect(controllers.routes.Window.item(id)).flashing("success" -> "admin.window.edit.success")
       }
     )
   }
