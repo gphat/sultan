@@ -37,6 +37,9 @@ object Window extends Controller with Secured {
       window.description, window.dateBegun, getTime(window.dateBegun),
       window.dateEnded, getTime(window.dateEnded), window.dateCreated
     )))
+    .verifying("window.date.failure", window => {
+      window.dateBegun.isBefore(window.dateEnded)
+    })
   )
 
   def add = IsAuthenticated { implicit request =>

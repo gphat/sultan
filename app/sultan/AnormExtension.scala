@@ -19,7 +19,11 @@ object AnormExtension {
   }
   implicit val dateTimeToStatement = new ToStatement[DateTime] {
     def set(s: java.sql.PreparedStatement, index: Int, aValue: DateTime): Unit = {
-      s.setTimestamp(index, new java.sql.Timestamp(aValue.withZone(DateTimeZone.UTC).withMillisOfSecond(0).getMillis()) )
+      if(aValue == null) {
+        s.setTimestamp(index, null)
+      } else {
+        s.setTimestamp(index, new java.sql.Timestamp(aValue.withZone(DateTimeZone.UTC).withMillisOfSecond(0).getMillis()) )
+      }
     }
   }
 }

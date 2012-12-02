@@ -14,6 +14,12 @@
  <li class="active">@Messages("admin.window.with.id", objForm("name").value.get)</li>
 </ul>
 <h1>@Messages("admin.window.edit")</h1>
+@objForm.globalError.map { error =>
+  <div class="alert alert-error">
+    <a class="close" data-dismiss="alert" href="#">&times;</a>
+    @Messages(error.message)
+  </div>
+}
 @helper.form(action = controllers.admin.routes.Window.update(id)) {
  <fieldset>
   @helper.select(field = objForm("window_type_id"), options = types, args = '_label -> Messages("window.type"))

@@ -138,6 +138,7 @@ user.with.id=User {0}
 
 window.name=Name
 window.description=Description
+window.date.failure=Invalid dates.
 window.date_begun=Date Begun
 window.date_ended=Date End
 window.time_begun=Time Begun
