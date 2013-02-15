@@ -50,7 +50,7 @@ object MoreFormats {
 
       stringFormat.bind(key, data).right.flatMap { s =>
         scala.util.control.Exception.allCatch[LocalTime]
-          .either(new LocalTime(12,00))
+          .either(new LocalTime(12,0))
           .left.map(e => Seq(FormError(key, "error.time", Nil)))
       }
     }

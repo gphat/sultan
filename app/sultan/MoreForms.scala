@@ -16,7 +16,7 @@ object MoreForms {
    *   Form("birthdate" -> jodaDate)
    * }}}
    */
-  val jodaDate: Mapping[org.joda.time.DateTime] = of[org.joda.time.DateTime]
+  // val jodaDate: Mapping[org.joda.time.DateTime] = of[org.joda.time.DateTime]
 
   /**
    * Constructs a simple mapping for a date field (mapped as `org.joda.time.DateTime type`).
@@ -28,7 +28,7 @@ object MoreForms {
    *
    * @param pattern the date pattern, as defined in `org.joda.time.format.DateTimeFormat`
    */
-  def jodaDate(pattern: String): Mapping[org.joda.time.DateTime] = of[org.joda.time.DateTime] as jodaDateTimeFormat(pattern)
+  // def jodaDate(pattern: String): Mapping[org.joda.time.DateTime] = of[org.joda.time.DateTime] as jodaDateTimeFormat(pattern)
 
   def jodaTime: Mapping[org.joda.time.LocalTime] = of[org.joda.time.LocalTime] as jodaTimeFormat
 }

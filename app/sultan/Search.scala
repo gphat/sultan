@@ -1,7 +1,6 @@
 package sultan
 
 import collection.JavaConversions._
-import com.traackr.scalastic.elasticsearch.Indexer
 import org.elasticsearch.action.search.SearchResponse
 import org.elasticsearch.index.query._
 import org.elasticsearch.index.query.FilterBuilders._
@@ -12,6 +11,7 @@ import org.elasticsearch.search.SearchHit
 import org.elasticsearch.search.facet.FacetBuilders._
 import org.elasticsearch.search.sort._
 import play.api.Logger
+import scalastic.elasticsearch._, SearchParameterTypes._
 
 object Search {
 
@@ -102,10 +102,11 @@ object Search {
         case 1 => Some(0)
         case _ => Some((query.page * query.count) - 1)
       },
-      sorting = Seq(
-        // This is a bit messy… but it gets the job done.
-        sortMap.get(query.sortBy.getOrElse("date_created")).getOrElse("date_created") -> sortOrder
-      )
+      // This is a bit messy… but it gets the job done.
+      sortings = Seq(FieldSort(
+        field = sortMap.get(query.sortBy.getOrElse("date_created")).getOrElse("date_created"),
+        order = sortOrder
+      ))
     )
   }
 }

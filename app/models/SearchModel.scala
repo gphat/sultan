@@ -1,6 +1,5 @@
 package models
 
-import com.traackr.scalastic.elasticsearch.Indexer
 import org.joda.time.DateTime
 import play.api._
 import play.api.Play.current
@@ -21,6 +20,7 @@ import org.elasticsearch.client._, transport._
 import org.elasticsearch.common.settings.ImmutableSettings._
 import org.elasticsearch.node._, NodeBuilder._
 
+import scalastic.elasticsearch._
 import sultan._
 import sultan.Search._
 import scala.collection.JavaConversions._
@@ -162,7 +162,7 @@ object SearchModel {
    */
   def checkIndices = {
 
-    if(!indexer.exists(changeIndex)) {
+    if(!indexer.exists(changeIndex).exists) {
       indexer.createIndex(changeIndex, settings = Map("number_of_shards" -> "1"))
       indexer.waitTillActive()
       indexer.putMapping(changeIndex, changeType, changeMapping)
@@ -186,7 +186,7 @@ object SearchModel {
    */
   def reIndex {
 
-    indexer.deleteIndex(changeIndex)
+    indexer.deleteIndex(Seq(changeIndex))
     checkIndices
 
     // Reindex all tickets and their history
@@ -201,10 +201,16 @@ object SearchModel {
   def searchChange(query: SearchQuery): SearchResult[FullChange] = {
 
     val res = sultan.Search.runQuery(indexer, changeIndex, query, changeFilterMap, changeSortMap, changeFacets)
-    val hits = res.hits.map { hit => Json.fromJson[FullChange](Json.parse(hit.sourceAsString())) }
+    // XX this asOpt get is bad!
+    val hits = res.hits.map {
+      hit => {
+        val change = Json.fromJson[FullChange](Json.parse(hit.sourceAsString()))
+        change.asOpt.get
+      }
+    }
 
     val pager = Page(hits, query.page, query.count, res.hits.totalHits)
-    println(res)
+
     Search.parseSearchResponse(pager = pager, response = res)
   }
 

@@ -6,3 +6,4 @@ tmp
 .history
 dist
 conf/application-local.conf
+data

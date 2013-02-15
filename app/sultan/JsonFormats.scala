@@ -25,7 +25,7 @@ object JsonFormats {
    * JSON conversion for Change
    */
   implicit object ChangeFormat extends Format[Change] {
-    def reads(json: JsValue): Change = Change(
+    def reads(json: JsValue): JsResult[Change] = JsSuccess(Change(
       id = Id((json \ "id").as[Long]),
       userId = (json \ "userId").as[Long],
       ownerId = (json \ "ownerId").as[Long],
@@ -41,7 +41,7 @@ object JsonFormats {
       dateCreated = dateFormatterUTC.parseDateTime((json \ "dateCreated").as[String]),
       dateScheduled = dateFormatterUTC.parseDateTime((json \ "dateScheduled").as[String]),
       success = (json \ "success").as[Boolean]
-    )
+    ))
 
     def writes(obj: Change): JsValue = {
 
@@ -85,7 +85,7 @@ object JsonFormats {
    * JSON conversion for FullChange
    */
   implicit object FullChangeFormat extends Format[FullChange] {
-    def reads(json: JsValue): FullChange = FullChange(
+    def reads(json: JsValue): JsResult[FullChange] = JsSuccess(FullChange(
       id = Id((json \ "id").as[Long]),
       user = NamedThing(
         id    = (json \ "userId").as[Long],
@@ -114,7 +114,7 @@ object JsonFormats {
       dateCreated = dateFormatterUTC.parseDateTime((json \ "dateCreated").as[String]),
       dateScheduled = dateFormatterUTC.parseDateTime((json \ "dateScheduled").as[String]),
       success = (json \ "success").as[Boolean]
-    )
+    ))
 
     def writes(obj: FullChange): JsValue = {
 

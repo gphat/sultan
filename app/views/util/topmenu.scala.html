@@ -3,7 +3,7 @@
 <div class="nav-collapse">
  <ul class="nav">
   <li @if(request.path.equals("/") && !request.queryString.get("status").isDefined && !request.queryString.get("completed").isDefined) { class="active" }><a href="@routes.Core.index()">@Messages("general.upcoming")</a></li>
-  <li @if(request.queryString.get("status").map({ s => s.first.toString.equals("CHANGE_STATUS_IN_PROGRESS") }).getOrElse(false)) { class="active" }><a href="@routes.Core.index()?status=CHANGE_STATUS_IN_PROGRESS">@Messages("general.in_progress")</a></li>
+  <li @if(request.queryString.get("status").map({ s => s.head.toString.equals("CHANGE_STATUS_IN_PROGRESS") }).getOrElse(false)) { class="active" }><a href="@routes.Core.index()?status=CHANGE_STATUS_IN_PROGRESS">@Messages("general.in_progress")</a></li>
   <li @if(request.queryString.get("completed").isDefined) { class="active" }><a href="@routes.Core.index()?completed=true">@Messages("general.completed")</a></li>
   <li @if(request.path.startsWith("/admin")) { class="active" }><a href="@routes.Admin.index()">@Messages("general.admin")</a></li>
  </ul>

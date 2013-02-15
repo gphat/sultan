@@ -8,7 +8,7 @@
 <span class="summ">@Messages("pager.summary", page.offset + 1, page.offset + page.items.size, page.total)</span>
 <div class="pagination pull-right">
   <ul>
-    @if(page.getWindow(10).first > page.range.start) {
+    @if(page.getWindow(10).head > page.range.start) {
     <li><a href="@Library.pagerLink(params = request.queryString, path = request.path, page = page.range.start, count = page.count)">&laquo;</a></li>
     }
     @page.prev.map { prev =>
